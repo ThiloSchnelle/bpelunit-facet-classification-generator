@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+	<csg:messageExchange name="TransactionConfirmation" xmlns:tes="http://www.bpelunit.org/schema/testSuite">
+		<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="confirmTransaction" fault="false">
+			<tes:condition>
+				<tes:expression>//tns:customerID</tes:expression>
+				<tes:value>
+					<csg:variableSlot name="ConsistedCustomer" />
+				</tes:value>
+			</tes:condition>
+			<tes:condition>
+				<tes:expression>//tns:loanPaid</tes:expression>
+				<tes:value>'<csg:variableSlot name="LoanPaidSlot" />'</tes:value>
+			</tes:condition>
+		</tes:receiveOnly>
+	</csg:messageExchange>
+</csg:variableDefinitions>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:messageExchange name="SignContract" xmlns:tes="http://www.bpelunit.org/schema/testSuite" xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+	<tes:receiveSend service="tns:ApprovalService" port="ApprovalPort" operation="approveLoan">
+		<tes:send fault="false">
+			<tes:data>
+				<tns:approveLoanResponse>
+					<tns:granted>
+						<csg:variableSlot name="IsContractGranted" />
+					</tns:granted>
+					<tns:customerID><csg:variableSlot name="ConsistedCustomer" /></tns:customerID>
+				</tns:approveLoanResponse>
+			</tes:data>
+		</tes:send>
+		<tes:receive fault="false">
+			<tes:condition>
+				<tes:expression>//tns:amount</tes:expression>
+				<tes:value><csg:variableSlot name="AmountCondition" /></tes:value>
+			</tes:condition>
+			<csg:variableSlot name="NumberPDFsCondition" />
+		</tes:receive>
+	</tes:receiveSend>
+</csg:messageExchange>

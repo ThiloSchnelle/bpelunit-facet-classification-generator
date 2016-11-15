@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tes:testSuite xmlns:tes="http://www.bpelunit.org/schema/testSuite" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+    <tes:name>suite.bpts</tes:name>
+    <tes:baseURL>http://localhost:7777/ws</tes:baseURL>
+    <tes:deployment>
+        <tes:put type="fixed" name="LoanProcess">
+            <tes:wsdl>../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl</tes:wsdl>
+        </tes:put>
+        <tes:partner name="PoliceInterface" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+        <tes:partner name="ApprovalService" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+        <tes:partner name="ClientService" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+    	<tes:partner name="CreditAgencyInquiryPort" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+    	<tes:partner name="TransactionConfirmationPort" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+    	<tes:partner name="OrderMoneyPort" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+    </tes:deployment>
+    <tes:testCases>
+
+    </tes:testCases>
+</tes:testSuite>

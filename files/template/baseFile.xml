@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tes:testSuite xmlns:tes="http://www.bpelunit.org/schema/testSuite" xmlns:namespace="NAMESPACE">
+    <tes:name>suite.bpts</tes:name>
+    <tes:baseURL>http://localhost:7777/ws</tes:baseURL>
+    <tes:deployment>
+        <tes:put type="fixed" name="PROCESSNAME">
+            <tes:wsdl>Path/To.wsdl</tes:wsdl>
+        </tes:put>
+        <tes:partner name="LastPartOfAddress" wsdl="Path/To.wsdl" partnerWsdl=""/>
+        <tes:partner name="LastPartOfAddress" wsdl="Path/To.wsdl" partnerWsdl=""/>
+    </tes:deployment>
+    <tes:testCases>
+
+    </tes:testCases>
+</tes:testSuite>

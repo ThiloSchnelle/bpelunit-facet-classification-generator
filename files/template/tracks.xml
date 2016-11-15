@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:tes="http://www.bpelunit.org/schema/testSuite" 
+	xmlns:csg="bpelunit.net/classificationTreeSuiteGenerator.xsd" xmlns:namespace="NAMESPACE">
+	
+	<csg:partnerTrackSequence name="PartnerTrackName" type="client">
+		<!-- Possible types: client, human, normal (default) -->
+		<csg:messageSlot>Slot1</csg:messageSlot>
+		<csg:messageSlot>Slot2</csg:messageSlot>
+		<csg:messageSlot>Slot3</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+</csg:variableDefinitions>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:mappings xmlns:csg="bpelunit.net/classificationTreeSuiteGenerator.xsd">
+	
+	<csg:mapping name="BaseMapping">
+		<csg:useVariable variableName="VariableAndSlotName" variableInstance="Instance1Name" />
+		<csg:useMessageExchange messageName="ExampleMessage" messageSlot="ClientRequest" />
+	</csg:mapping>
+	
+	<csg:mapping name="Entscheidung A:Auswahl AB">
+		<csg:extends>BaseSelection</csg:extends>
+		<csg:useMessageExchange messageName="ExampleMessage2" messageSlot="Slot1" />
+		<csg:deactivateSlot name="Slot2" />
+		<csg:deactivateTrack name="TrackToDeactivate" />
+	</csg:mapping>
+	
+</csg:mappings>

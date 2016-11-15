@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:mappings xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd">
+	
+	<csg:mapping>
+		<csg:name>BaseSelection</csg:name>
+		<csg:useMessageExchange>
+			<csg:messageName>Order</csg:messageName>
+			<csg:partnerTrack>clientTrack</csg:partnerTrack>
+			<csg:messageSlot>ClientRequest</csg:messageSlot>
+		</csg:useMessageExchange>
+		<csg:useMessageExchange>
+			<csg:messageName>WarehouseAvailability</csg:messageName>
+			<csg:partnerTrack>Warehouse</csg:partnerTrack>
+			<csg:messageSlot>WarehouseAvailability</csg:messageSlot>
+		</csg:useMessageExchange>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Ware verfügbar?:Ware nicht verfügbar</csg:name>
+		<csg:extends>BaseSelection</csg:extends>
+		<csg:useMessageExchange>
+			<csg:messageName>NotAvailable</csg:messageName>
+			<csg:partnerTrack>ClientPort</csg:partnerTrack>
+			<csg:messageSlot>OrderAvailable</csg:messageSlot>
+		</csg:useMessageExchange>
+		<csg:variable>
+			<csg:variableName>ProdukteVerfügbar</csg:variableName>
+			<csg:variableInstance>Nicht verfügbar</csg:variableInstance>
+		</csg:variable>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Ware verfügbar?:Versand möglich?</csg:name>
+		<csg:extends>BaseSelection</csg:extends>
+		<csg:variable>
+			<csg:variableName>ProdukteVerfügbar</csg:variableName>
+			<csg:variableInstance>Verfügbar</csg:variableInstance>
+		</csg:variable>
+		<csg:useMessageExchange>
+			<csg:messageName>ConfirmOrder</csg:messageName>
+			<csg:partnerTrack>ClientPort</csg:partnerTrack>
+			<csg:messageSlot>OrderAvailable</csg:messageSlot>
+		</csg:useMessageExchange>
+		<csg:useMessageExchange>
+			<csg:messageName>FreightCompanyRequest</csg:messageName>
+			<csg:partnerTrack>FreightCompany</csg:partnerTrack>
+			<csg:messageSlot>FreightCompanyRequest</csg:messageSlot>
+		</csg:useMessageExchange>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Ware verfügbar?:Versand möglich?:Erfolg</csg:name>
+		<csg:extends>Ware verfügbar?:Versand möglich?</csg:extends>
+		<csg:useMessageExchange>
+			<csg:messageName>ShippingSucceeded</csg:messageName>
+			<csg:partnerTrack>ClientPort</csg:partnerTrack>
+			<csg:messageSlot>OrderShipping</csg:messageSlot>
+		</csg:useMessageExchange>
+		<csg:useMessageExchange>
+			<csg:messageName>WarehouseShipping</csg:messageName>
+			<csg:partnerTrack>WarehouseShippingPort</csg:partnerTrack>
+			<csg:messageSlot>WarehouseShippingRequest</csg:messageSlot>
+		</csg:useMessageExchange>
+		<csg:useMessageExchange>
+			<csg:messageName>AccountingRequest</csg:messageName>
+			<csg:partnerTrack>Accounting</csg:partnerTrack>
+			<csg:messageSlot>AccountingRequest</csg:messageSlot>
+		</csg:useMessageExchange>
+		<csg:variable>
+			<csg:variableName>Versanderfolg</csg:variableName>
+			<csg:variableInstance>Ja</csg:variableInstance>
+		</csg:variable>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Ware verfügbar?:Versand möglich?:Versandfehler</csg:name>
+		<csg:extends>Ware verfügbar?:Versand möglich?</csg:extends>
+		<csg:useMessageExchange>
+			<csg:messageName>FreightError</csg:messageName>
+			<csg:partnerTrack>ClientPort</csg:partnerTrack>
+			<csg:messageSlot>OrderShipping</csg:messageSlot>
+		</csg:useMessageExchange>
+		<csg:variable>
+			<csg:variableName>Versanderfolg</csg:variableName>
+			<csg:variableInstance>Nein</csg:variableInstance>
+		</csg:variable>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Einkaufsgröße:Großbrief</csg:name>
+		<csg:variable>
+			<csg:variableName>ProduktListeInhalt</csg:variableName>
+			<csg:variableInstance>Großbrief</csg:variableInstance>
+		</csg:variable>
+		<csg:variable>
+			<csg:variableName>ProduktIDListe</csg:variableName>
+			<csg:variableInstance>Großbrief</csg:variableInstance>
+		</csg:variable>
+		<csg:variable>
+			<csg:variableName>Gesamtpreis</csg:variableName>
+			<csg:variableInstance>Großbrief</csg:variableInstance>
+		</csg:variable>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Einkaufsgröße:Normales Paket</csg:name>
+		<csg:variable>
+			<csg:variableName>ProduktListeInhalt</csg:variableName>
+			<csg:variableInstance>Normales Paket</csg:variableInstance>
+		</csg:variable>
+		<csg:variable>
+			<csg:variableName>ProduktIDListe</csg:variableName>
+			<csg:variableInstance>Normales Paket</csg:variableInstance>
+		</csg:variable>
+		<csg:variable>
+			<csg:variableName>Gesamtpreis</csg:variableName>
+			<csg:variableInstance>Normales Paket</csg:variableInstance>
+		</csg:variable>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Einkaufsgröße:Sperrgut</csg:name>
+		<csg:variable>
+			<csg:variableName>ProduktListeInhalt</csg:variableName>
+			<csg:variableInstance>Sperrgut</csg:variableInstance>
+		</csg:variable>
+		<csg:variable>
+			<csg:variableName>ProduktIDListe</csg:variableName>
+			<csg:variableInstance>Sperrgut</csg:variableInstance>
+		</csg:variable>
+		<csg:variable>
+			<csg:variableName>Gesamtpreis</csg:variableName>
+			<csg:variableInstance>Sperrgut</csg:variableInstance>
+		</csg:variable>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Zahlungsmethode:PayPal</csg:name>
+		<csg:variable>
+			<csg:variableName>Zahlungsmethode</csg:variableName>
+			<csg:variableInstance>PayPal</csg:variableInstance>
+		</csg:variable>
+		<csg:variable>
+			<csg:variableName>ZahlungsmethodeZusatzkosten</csg:variableName>
+			<csg:variableInstance>PayPal</csg:variableInstance>
+		</csg:variable>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Zahlungsmethode:EC</csg:name>
+		<csg:variable>
+			<csg:variableName>Zahlungsmethode</csg:variableName>
+			<csg:variableInstance>EC</csg:variableInstance>
+		</csg:variable>
+		<csg:variable>
+			<csg:variableName>ZahlungsmethodeZusatzkosten</csg:variableName>
+			<csg:variableInstance>EC</csg:variableInstance>
+		</csg:variable>
+	</csg:mapping>
+	
+	<csg:mapping>
+		<csg:name>Zahlungsmethode:Überweisung</csg:name>
+		<csg:variable>
+			<csg:variableName>Zahlungsmethode</csg:variableName>
+			<csg:variableInstance>Überweisung</csg:variableInstance>
+		</csg:variable>
+		<csg:variable>
+			<csg:variableName>ZahlungsmethodeZusatzkosten</csg:variableName>
+			<csg:variableInstance>Überweisung</csg:variableInstance>
+		</csg:variable>
+	</csg:mapping>
+	
+</csg:mappings>

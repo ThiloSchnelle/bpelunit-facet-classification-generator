@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:mappings xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd">
+	
+	<csg:mapping name="BaseSelection">
+		<csg:useVariable variableName="ApplicationAmount" variableInstance="NormalApplicationAmount" />
+		<csg:useVariable variableName="AmountCondition" variableInstance="NormalAmountCondition" />
+		<csg:useVariable variableName="IsContractGranted" variableInstance="IsGranted" />
+		<csg:useMessageExchange messageName="SignContract" messageSlot="ApprovalOfApplication" />
+	</csg:mapping>
+	
+	<csg:mapping name="Betrag:Okay:Signieren">
+		<csg:extends>BaseSelection</csg:extends>
+		<csg:useMessageExchange messageName="ApplyLoan" messageSlot="InitialMessage" />
+		<csg:useMessageExchange messageName="ReceiveLoan" messageSlot="AnswerToClient" />
+		<csg:useMessageExchange messageName="CreditAgencyInquiry" messageSlot="CreditAgencyInquirySlot" />
+	</csg:mapping>
+	
+	<csg:mapping name="Betrag:Okay:NichtSignieren">
+		<csg:extends>BaseSelection</csg:extends>
+		<csg:useMessageExchange messageName="ApplyLoan" messageSlot="InitialMessage" />
+		<csg:useMessageExchange messageName="ReceiveLoanNotSigned" messageSlot="AnswerToClient" />
+		<csg:useVariable variableName="IsContractGranted" variableInstance="NotGranted" />
+	</csg:mapping>
+	
+	<csg:mapping name="AngebotErstellt">
+		<csg:useMessageExchange messageName="TransactionConfirmation" messageSlot="TransactionConfirmationSlot" />
+	</csg:mapping>
+	
+	<csg:mapping name="Betrag:Okay:Signieren:KundeNimmtAn">
+		<csg:extends>Betrag:Okay:Signieren</csg:extends>
+		<csg:extends>AngebotErstellt</csg:extends>
+		<csg:useMessageExchange messageName="AcceptOffer" messageSlot="AnswerFromClientToProcess" />
+		<csg:useMessageExchange messageName="OrderMoney" messageSlot="OrderMoneySlot" />
+		<csg:useVariable variableName="LoanPaidSlot" variableInstance="LoanPaid" />
+	</csg:mapping>
+	
+	<csg:mapping name="Betrag:Okay:Signieren:KundeLehntAb">
+		<csg:extends>Betrag:Okay:Signieren</csg:extends>
+		<csg:extends>AngebotErstellt</csg:extends>
+		<csg:useMessageExchange messageName="DeclineOffer" messageSlot="AnswerFromClientToProcess" />
+		<csg:useVariable variableName="LoanPaidSlot" variableInstance="LoanNotPaid" />
+	</csg:mapping>
+	
+	<csg:mapping name="Betrag:ZuGroß">
+		<csg:useMessageExchange messageName="ApplyLoan" messageSlot="InitialMessage" />
+		<csg:useMessageExchange messageName="IssuePolice" messageSlot="FraudMessage" />
+		<csg:useVariable variableName="ApplicationAmount" variableInstance="HugeApplicationAmount" />
+		<csg:useVariable variableName="AmountCondition" variableInstance="HugeAmountCondition" />
+	</csg:mapping>
+	
+	<csg:mapping name="ZahlPDFs:=1">
+		<csg:useVariable variableName="NumberPDFs" variableInstance="OnePDF" />
+		<csg:useVariable variableName="NumberPDFsCondition" variableInstance="OnePDFCondition" />
+	</csg:mapping>
+	
+	<csg:mapping name="ZahlPDFs:Größer1">
+		<csg:useVariable variableName="NumberPDFs" variableInstance="MorePDFs" />
+		<csg:useVariable variableName="NumberPDFsCondition" variableInstance="MorePDFsCondition" />
+	</csg:mapping>
+	
+	<csg:mapping name="Bestandskunde:Ja">
+		<csg:useVariable variableName="ConsistedCustomer" variableInstance="Consisted" />
+		<csg:useVariable variableName="ConsistedCustomerInterest" variableInstance="ConsistedInterest" />
+	</csg:mapping>
+	
+	<csg:mapping name="Bestandskunde:Nein">
+		<csg:useVariable variableName="ConsistedCustomer" variableInstance="NotConsisted" />
+		<csg:useVariable variableName="ConsistedCustomerInterest" variableInstance="NotConsistedInterest" />
+	</csg:mapping>
+</csg:mappings>

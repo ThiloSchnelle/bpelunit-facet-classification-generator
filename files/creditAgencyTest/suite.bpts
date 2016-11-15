@@ -1,0 +1,677 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tes:testSuite xmlns:tes="http://www.bpelunit.org/schema/testSuite" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+	<tes:name>suite.bpts</tes:name>
+	<tes:baseURL>http://localhost:7777/ws</tes:baseURL>
+	<tes:deployment>
+		<tes:put type="fixed" name="LoanProcess">
+			<tes:wsdl>../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl</tes:wsdl>
+		</tes:put>
+		<tes:partner name="PoliceInterface" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl="" />
+		<tes:partner name="ApprovalService" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl="" />
+		<tes:partner name="ClientService" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl="" />
+		<tes:partner name="CreditAgencyInquiryPort" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl="" />
+		<tes:partner name="TransactionConfirmationPort" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl="" />
+		<tes:partner name="OrderMoneyPort" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl="" />
+	</tes:deployment>
+	<tes:testCases>
+		<tes:testCase name="EverythingFine" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>10001</tns:customerID>
+							<tns:amount>100000</tns:amount>
+							<tns:numPDFs>1</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ApprovalService">
+				<tes:receiveSend service="tns:ApprovalService" port="ApprovalPort" operation="approveLoan">
+					<tes:send fault="false">
+						<tes:data>
+							<tns:approveLoanResponse>
+								<tns:granted>true</tns:granted>
+								<tns:customerID>10001</tns:customerID>
+							</tns:approveLoanResponse>
+						</tes:data>
+					</tes:send>
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:amount</tes:expression>
+							<tes:value>100000</tes:value>
+						</tes:condition>
+						<tes:condition>
+							<tes:expression>//tns:numPDFs</tes:expression>
+							<tes:value>1</tes:value>
+						</tes:condition>
+					</tes:receive>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientService">
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:interest</tes:expression>
+						<tes:value>7</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:granted</tes:expression>
+						<tes:value>'true'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="acceptOffer" fault="false">
+					<tes:data>
+						<tns:acceptOffer>
+							<tns:customerID>10001</tns:customerID>
+						</tns:acceptOffer>
+					</tes:data>
+				</tes:sendOnly>
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="confirmTransaction" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:loanPaid</tes:expression>
+						<tes:value>'true'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="CreditAgencyInquiryPort">
+				<tes:receiveSend service="tns:CreditAgency" port="InquiryPort" operation="inquire">
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:customerID</tes:expression>
+							<tes:value>10001</tes:value>
+						</tes:condition>
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<tns:creditAgencyInquiryResponse>
+								<tns:customerID>10001</tns:customerID>
+								<tns:score>0.8</tns:score>
+							</tns:creditAgencyInquiryResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="OrderMoneyPort">
+				<tes:receiveOnly service="tns:MoneyService" port="OrderMoneyPort" operation="orderMoney" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:amount</tes:expression>
+						<tes:value>100000</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="TooBig" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>9999</tns:customerID>
+							<tns:amount>100001</tns:amount>
+							<tns:numPDFs>2</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="PoliceInterface">
+				<tes:receiveOnly service="tns:PoliceInterface" port="PolicePort" operation="reportFraud" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:amount</tes:expression>
+						<tes:value>100001</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="NotSignedMultiplePDFs" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>10001</tns:customerID>
+							<tns:amount>100000</tns:amount>
+							<tns:numPDFs>2</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ApprovalService">
+				<tes:receiveSend service="tns:ApprovalService" port="ApprovalPort" operation="approveLoan">
+					<tes:send fault="false">
+						<tes:data>
+							<tns:approveLoanResponse>
+								<tns:granted>false</tns:granted>
+								<tns:customerID>10001</tns:customerID>
+							</tns:approveLoanResponse>
+						</tes:data>
+					</tes:send>
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:amount</tes:expression>
+							<tes:value>100000</tes:value>
+						</tes:condition>
+						<tes:condition>
+							<tes:expression>//tns:numPDFs</tes:expression>
+							<tes:value>2</tes:value>
+						</tes:condition>
+					</tes:receive>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientService">
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:granted</tes:expression>
+						<tes:value>'false'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="KeinBestandskunde" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>10001</tns:customerID>
+							<tns:amount>100000</tns:amount>
+							<tns:numPDFs>1</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ApprovalService">
+				<tes:receiveSend service="tns:ApprovalService" port="ApprovalPort" operation="approveLoan">
+					<tes:send fault="false">
+						<tes:data>
+							<tns:approveLoanResponse>
+								<tns:granted>true</tns:granted>
+								<tns:customerID>10001</tns:customerID>
+							</tns:approveLoanResponse>
+						</tes:data>
+					</tes:send>
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:amount</tes:expression>
+							<tes:value>100000</tes:value>
+						</tes:condition>
+						<tes:condition>
+							<tes:expression>//tns:numPDFs</tes:expression>
+							<tes:value>1</tes:value>
+						</tes:condition>
+					</tes:receive>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientService">
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:interest</tes:expression>
+						<tes:value>7</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:granted</tes:expression>
+						<tes:value>'true'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="declineOffer" fault="false">
+					<tes:data>
+						<tns:declineOffer>
+							<tns:customerID>10001</tns:customerID>
+						</tns:declineOffer>
+					</tes:data>
+				</tes:sendOnly>
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="confirmTransaction" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:loanPaid</tes:expression>
+						<tes:value>'false'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="CreditAgencyInquiryPort">
+				<tes:receiveSend service="tns:CreditAgency" port="InquiryPort" operation="inquire">
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:customerID</tes:expression>
+							<tes:value>10001</tes:value>
+						</tes:condition>
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<tns:creditAgencyInquiryResponse>
+								<tns:customerID>10001</tns:customerID>
+								<tns:score>0.8</tns:score>
+							</tns:creditAgencyInquiryResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Recommended 1" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>10001</tns:customerID>
+							<tns:amount>100001</tns:amount>
+							<tns:numPDFs>1</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="PoliceInterface">
+				<tes:receiveOnly service="tns:PoliceInterface" port="PolicePort" operation="reportFraud" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:amount</tes:expression>
+						<tes:value>100001</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Recommended 2" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>9999</tns:customerID>
+							<tns:amount>100000</tns:amount>
+							<tns:numPDFs>1</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ApprovalService">
+				<tes:receiveSend service="tns:ApprovalService" port="ApprovalPort" operation="approveLoan">
+					<tes:send fault="false">
+						<tes:data>
+							<tns:approveLoanResponse>
+								<tns:granted>false</tns:granted>
+								<tns:customerID>9999</tns:customerID>
+							</tns:approveLoanResponse>
+						</tes:data>
+					</tes:send>
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:amount</tes:expression>
+							<tes:value>100000</tes:value>
+						</tes:condition>
+						<tes:condition>
+							<tes:expression>//tns:numPDFs</tes:expression>
+							<tes:value>1</tes:value>
+						</tes:condition>
+					</tes:receive>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientService">
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>9999</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:granted</tes:expression>
+						<tes:value>'false'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Recommended 3" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>10001</tns:customerID>
+							<tns:amount>100000</tns:amount>
+							<tns:numPDFs>2</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ApprovalService">
+				<tes:receiveSend service="tns:ApprovalService" port="ApprovalPort" operation="approveLoan">
+					<tes:send fault="false">
+						<tes:data>
+							<tns:approveLoanResponse>
+								<tns:granted>false</tns:granted>
+								<tns:customerID>10001</tns:customerID>
+							</tns:approveLoanResponse>
+						</tes:data>
+					</tes:send>
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:amount</tes:expression>
+							<tes:value>100000</tes:value>
+						</tes:condition>
+						<tes:condition>
+							<tes:expression>//tns:numPDFs</tes:expression>
+							<tes:value>2</tes:value>
+						</tes:condition>
+					</tes:receive>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientService">
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:granted</tes:expression>
+						<tes:value>'false'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Recommended 4" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>9999</tns:customerID>
+							<tns:amount>100000</tns:amount>
+							<tns:numPDFs>1</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ApprovalService">
+				<tes:receiveSend service="tns:ApprovalService" port="ApprovalPort" operation="approveLoan">
+					<tes:send fault="false">
+						<tes:data>
+							<tns:approveLoanResponse>
+								<tns:granted>true</tns:granted>
+								<tns:customerID>9999</tns:customerID>
+							</tns:approveLoanResponse>
+						</tes:data>
+					</tes:send>
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:amount</tes:expression>
+							<tes:value>100000</tes:value>
+						</tes:condition>
+						<tes:condition>
+							<tes:expression>//tns:numPDFs</tes:expression>
+							<tes:value>1</tes:value>
+						</tes:condition>
+					</tes:receive>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientService">
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:interest</tes:expression>
+						<tes:value>5</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>9999</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:granted</tes:expression>
+						<tes:value>'true'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="acceptOffer" fault="false">
+					<tes:data>
+						<tns:acceptOffer>
+							<tns:customerID>9999</tns:customerID>
+						</tns:acceptOffer>
+					</tes:data>
+				</tes:sendOnly>
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="confirmTransaction" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>9999</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:loanPaid</tes:expression>
+						<tes:value>'true'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="CreditAgencyInquiryPort">
+				<tes:receiveSend service="tns:CreditAgency" port="InquiryPort" operation="inquire">
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:customerID</tes:expression>
+							<tes:value>9999</tes:value>
+						</tes:condition>
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<tns:creditAgencyInquiryResponse>
+								<tns:customerID>9999</tns:customerID>
+								<tns:score>0.8</tns:score>
+							</tns:creditAgencyInquiryResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="OrderMoneyPort">
+				<tes:receiveOnly service="tns:MoneyService" port="OrderMoneyPort" operation="orderMoney" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>9999</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:amount</tes:expression>
+						<tes:value>100000</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Recommended 5" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>9999</tns:customerID>
+							<tns:amount>100000</tns:amount>
+							<tns:numPDFs>1</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ApprovalService">
+				<tes:receiveSend service="tns:ApprovalService" port="ApprovalPort" operation="approveLoan">
+					<tes:send fault="false">
+						<tes:data>
+							<tns:approveLoanResponse>
+								<tns:granted>true</tns:granted>
+								<tns:customerID>9999</tns:customerID>
+							</tns:approveLoanResponse>
+						</tes:data>
+					</tes:send>
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:amount</tes:expression>
+							<tes:value>100000</tes:value>
+						</tes:condition>
+						<tes:condition>
+							<tes:expression>//tns:numPDFs</tes:expression>
+							<tes:value>1</tes:value>
+						</tes:condition>
+					</tes:receive>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientService">
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:interest</tes:expression>
+						<tes:value>5</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>9999</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:granted</tes:expression>
+						<tes:value>'true'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="declineOffer" fault="false">
+					<tes:data>
+						<tns:declineOffer>
+							<tns:customerID>9999</tns:customerID>
+						</tns:declineOffer>
+					</tes:data>
+				</tes:sendOnly>
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="confirmTransaction" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>9999</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:loanPaid</tes:expression>
+						<tes:value>'false'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="CreditAgencyInquiryPort">
+				<tes:receiveSend service="tns:CreditAgency" port="InquiryPort" operation="inquire">
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:customerID</tes:expression>
+							<tes:value>9999</tes:value>
+						</tes:condition>
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<tns:creditAgencyInquiryResponse>
+								<tns:customerID>9999</tns:customerID>
+								<tns:score>0.8</tns:score>
+							</tns:creditAgencyInquiryResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Recommended 6" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+					<tes:data>
+						<tns:loanApplication>
+							<tns:customerID>10001</tns:customerID>
+							<tns:amount>100000</tns:amount>
+							<tns:numPDFs>2</tns:numPDFs>
+							<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+						</tns:loanApplication>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ApprovalService">
+				<tes:receiveSend service="tns:ApprovalService" port="ApprovalPort" operation="approveLoan">
+					<tes:send fault="false">
+						<tes:data>
+							<tns:approveLoanResponse>
+								<tns:granted>true</tns:granted>
+								<tns:customerID>10001</tns:customerID>
+							</tns:approveLoanResponse>
+						</tes:data>
+					</tes:send>
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:amount</tes:expression>
+							<tes:value>100000</tes:value>
+						</tes:condition>
+						<tes:condition>
+							<tes:expression>//tns:numPDFs</tes:expression>
+							<tes:value>2</tes:value>
+						</tes:condition>
+					</tes:receive>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientService">
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:interest</tes:expression>
+						<tes:value>7</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:granted</tes:expression>
+						<tes:value>'true'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="acceptOffer" fault="false">
+					<tes:data>
+						<tns:acceptOffer>
+							<tns:customerID>10001</tns:customerID>
+						</tns:acceptOffer>
+					</tes:data>
+				</tes:sendOnly>
+				<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="confirmTransaction" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:loanPaid</tes:expression>
+						<tes:value>'true'</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="CreditAgencyInquiryPort">
+				<tes:receiveSend service="tns:CreditAgency" port="InquiryPort" operation="inquire">
+					<tes:receive fault="false">
+						<tes:condition>
+							<tes:expression>//tns:customerID</tes:expression>
+							<tes:value>10001</tes:value>
+						</tes:condition>
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<tns:creditAgencyInquiryResponse>
+								<tns:customerID>10001</tns:customerID>
+								<tns:score>0.8</tns:score>
+							</tns:creditAgencyInquiryResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="OrderMoneyPort">
+				<tes:receiveOnly service="tns:MoneyService" port="OrderMoneyPort" operation="orderMoney" fault="false">
+					<tes:condition>
+						<tes:expression>//tns:customerID</tes:expression>
+						<tes:value>10001</tes:value>
+					</tes:condition>
+					<tes:condition>
+						<tes:expression>//tns:amount</tes:expression>
+						<tes:value>100000</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+		</tes:testCase>
+	</tes:testCases>
+</tes:testSuite>

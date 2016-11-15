@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+	<csg:messageExchange name="CreditAgencyInquiry" xmlns:tes="http://www.bpelunit.org/schema/testSuite">
+		<tes:receiveSend service="tns:CreditAgency" port="InquiryPort" operation="inquire">
+		<tes:receive fault="false">
+			<tes:condition>
+				<tes:expression>//tns:customerID</tes:expression>
+				<tes:value><csg:variableSlot name="ConsistedCustomer" /></tes:value>
+			</tes:condition>
+		</tes:receive>
+		<tes:send fault="false">
+			<tes:data>
+				<tns:creditAgencyInquiryResponse>
+					<tns:customerID><csg:variableSlot name="ConsistedCustomer" /></tns:customerID>
+					<tns:score>0.8</tns:score>
+				</tns:creditAgencyInquiryResponse>
+			</tes:data>
+		</tes:send>
+	</tes:receiveSend>
+	</csg:messageExchange>
+</csg:variableDefinitions>

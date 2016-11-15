@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="bpelunit.net/classificationTreeSuiteGenerator.xsd" xmlns="bpelunit.net/classificationTreeSuiteGenerator.xsd" elementFormDefault="qualified">
+
+	<xs:complexType name="VariableSlot">
+		<xs:annotation><xs:documentation>A place in the definition of a message where a variable instance can be inserted.</xs:documentation></xs:annotation>
+		<xs:attribute name="name" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:element name="variableSlot" type="VariableSlot" />
+	
+	<xs:complexType name="MessageExchange" mixed="true">
+		<xs:annotation><xs:documentation>A message or human tasks that potentially contains variableSlots.</xs:documentation></xs:annotation>
+		<xs:sequence>
+			<xs:any minOccurs="0" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:element name="messageExchange" type="MessageExchange" />
+
+	<xs:complexType name="VariableDefinition">
+		<xs:annotation><xs:documentation>
+			A VariableDefinition contains the variableName as attribute and a set of instances that fill that variable with data. These instances have name-attributes and the data.
+		</xs:documentation></xs:annotation>
+		<xs:sequence>
+			<xs:element name="instance" maxOccurs="unbounded">
+				<xs:complexType mixed="true">
+					<xs:sequence>
+						<xs:any minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="name" type="xs:string" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:simpleType name="TrackType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="client"></xs:enumeration>
+			<xs:enumeration value="human"></xs:enumeration>
+			<xs:enumeration value="normal"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="PartnerTrackSequence">
+		<xs:annotation><xs:documentation>
+			Define a PartnerTrack by its name and type (client | human | normal) and a sequence of messageSlots that enable to order selected messages.
+		</xs:documentation></xs:annotation>
+		<xs:sequence>
+			<xs:element name="messageSlot" type="xs:string" maxOccurs="unbounded" />
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" />
+		<xs:attribute name="type" type="TrackType" default="normal" />
+	</xs:complexType>
+
+	<xs:element name="variableDefinitions">
+		<xs:annotation><xs:documentation>
+			Serves as a root-element when defining (Variables and their VariableInstances | MessageExchanges | PartnerTracks with their MessageSlots).
+		</xs:documentation></xs:annotation>
+		<xs:complexType>
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="variableDefinition" type="VariableDefinition" />
+				<xs:element name="messageExchange" type="MessageExchange" />
+				<xs:element name="partnerTrackSequence" type="PartnerTrackSequence" />
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+			
+	<xs:complexType name="UseVariable">
+		<xs:annotation><xs:documentation>
+			Defines that the VariableInstance with the given instanceName should be inserted into all VariableSlots with the given variableName.
+		</xs:documentation></xs:annotation>
+		<xs:attribute name="variableName" type="xs:string" />
+		<xs:attribute name="variableInstance" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="UseMessageExchange">
+		<xs:annotation><xs:documentation>
+			Defines that the message with the given namen should be inserted into the given messageSlot.
+		</xs:documentation></xs:annotation>
+		<xs:attribute name="messageName" type="xs:string" />
+		<xs:attribute name="messageSlot" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:complexType name="DeactivateSlot">
+		<xs:annotation><xs:documentation>
+			Deactivates a slot. A message inserted into that slot will not be inserted into the generated testcase.
+		</xs:documentation></xs:annotation>
+		<xs:attribute name="name" type="xs:string" />
+	</xs:complexType>
+	
+	<xs:complexType name="DeactivateTrack">
+		<xs:annotation><xs:documentation>
+			Deactivates a complete partnerTrack. No messages of that track will be inserted.
+		</xs:documentation></xs:annotation>
+		<xs:attribute name="name" type="xs:string" />
+	</xs:complexType>
+		
+	<xs:complexType name="Mapping">
+		<xs:annotation><xs:documentation>
+			Belongs to a leave in the classification tree. Defines which messages and variables are used for their slots when that leave is checked.
+		</xs:documentation></xs:annotation>
+		<xs:sequence>
+			<xs:element name="extends" type="xs:string" minOccurs="0" maxOccurs="unbounded" />
+			<xs:choice maxOccurs="unbounded">
+				<xs:element name="useVariable" type="UseVariable" />
+				<xs:element name="useMessageExchange" type="UseMessageExchange" />
+				<xs:element name="deactivateSlot" type="DeactivateSlot" />
+				<xs:element name="deactivateTrack" type="DeactivateTrack" />
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="name" type="xs:string" />
+	</xs:complexType>
+			
+	<xs:element name="mappings">
+		<xs:annotation><xs:documentation>
+			Serves as a root-element when defining Selections.
+		</xs:documentation></xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="mapping" type="Mapping" maxOccurs="unbounded" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>

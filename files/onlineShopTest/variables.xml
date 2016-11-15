@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:tes="http://www.bpelunit.org/schema/testSuite" xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:oss="www.example.org/OnlineShopSchema/">
+	
+	<csg:partnerTrackSequence>
+		<csg:client />
+		<csg:messageSlot>ClientRequest</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence>
+		<csg:name>Accounting</csg:name>
+		<csg:messageSlot>AccountingRequest</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence>
+		<csg:name>Warehouse</csg:name>
+		<csg:messageSlot>WarehouseAvailability</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence>
+		<csg:name>WarehouseShippingPort</csg:name>
+		<csg:messageSlot>WarehouseShippingRequest</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence>
+		<csg:name>FreightCompany</csg:name>
+		<csg:messageSlot>FreightCompanyRequest</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence>
+		<csg:name>ClientPort</csg:name>
+		<csg:messageSlot>OrderAvailable</csg:messageSlot>
+		<csg:messageSlot>OrderShipping</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:variableDefinition>
+		<csg:variableName>Zahlungsmethode</csg:variableName>
+		<csg:instance>
+			<csg:instanceName>PayPal</csg:instanceName>
+			<csg:data>PayPal</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>EC</csg:instanceName>
+			<csg:data>EC</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Überweisung</csg:instanceName>
+			<csg:data>Banktransfer</csg:data>
+		</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition>
+		<csg:variableName>ZahlungsmethodeZusatzkosten</csg:variableName>
+		<csg:instance>
+			<csg:instanceName>PayPal</csg:instanceName>
+			<csg:data>3.0</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>EC</csg:instanceName>
+			<csg:data>0.0</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Überweisung</csg:instanceName>
+			<csg:data>0.0</csg:data>
+		</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition>
+		<csg:variableName>ProduktIDListe</csg:variableName>
+		<csg:instance>
+			<csg:instanceName>Großbrief</csg:instanceName>
+			<csg:data><oss:productID>1</oss:productID></csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Normales Paket</csg:instanceName>
+			<csg:data>
+				<oss:productID>13</oss:productID>
+				<oss:productID>7</oss:productID>
+			</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Sperrgut</csg:instanceName>
+			<csg:data><oss:productID>42</oss:productID></csg:data>
+		</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition>
+		<csg:variableName>ProduktListeInhalt</csg:variableName>
+		<csg:instance>
+			<csg:instanceName>Großbrief</csg:instanceName>
+			<csg:data>
+				<oss:product>
+					<oss:id>1</oss:id>
+					<oss:name>Ueber Wachen und Schlafen</oss:name>
+					<oss:priceInEur>8.99</oss:priceInEur>
+				</oss:product>
+			</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Normales Paket</csg:instanceName>
+			<csg:data>
+				<oss:product>
+					<oss:id>13</oss:id>
+					<oss:name>Geschäftsprozesse automatisieren mit BPEL</oss:name>
+					<oss:priceInEur>36.99</oss:priceInEur>
+				</oss:product>
+				<oss:product>
+					<oss:id>7</oss:id>
+					<oss:name>Game Engine Architecture</oss:name>
+					<oss:priceInEur>56.95</oss:priceInEur>
+				</oss:product>
+			</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Sperrgut</csg:instanceName>
+			<csg:data>
+				<oss:product>
+					<oss:id>42</oss:id>
+					<oss:name>Eckschreibtisch</oss:name>
+					<oss:priceInEur>399.99</oss:priceInEur>
+				</oss:product>
+			</csg:data>
+		</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition>
+		<csg:variableName>Gesamtpreis</csg:variableName>
+		<csg:instance>
+			<csg:instanceName>Großbrief</csg:instanceName>
+			<csg:data>8.99</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Normales Paket</csg:instanceName>
+			<csg:data>93.94</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Sperrgut</csg:instanceName>
+			<csg:data>399.99</csg:data>
+		</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition>
+		<csg:variableName>ProdukteVerfügbar</csg:variableName>
+		<csg:instance>
+			<csg:instanceName>Verfügbar</csg:instanceName>
+			<csg:data>true</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Nicht verfügbar</csg:instanceName>
+			<csg:data>false</csg:data>
+		</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition>
+		<csg:variableName>Versanderfolg</csg:variableName>
+		<csg:instance>
+			<csg:instanceName>Ja</csg:instanceName>
+			<csg:data>true</csg:data>
+		</csg:instance>
+		<csg:instance>
+			<csg:instanceName>Nein</csg:instanceName>
+			<csg:data>false</csg:data>
+		</csg:instance>
+	</csg:variableDefinition>
+	
+</csg:variableDefinitions>

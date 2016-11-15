@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:csg="bpelunit.net/classificationTreeSuiteGenerator.xsd" xmlns:namespace="NAMESPACE">
+	<csg:messageExchange xmlns:tes="http://www.bpelunit.org/schema/testSuite" name="ExampleMessage">
+		<tes:receiveSend service="namespace:ExampleService" port="ExamplePort" operation="exampleOperation">
+			<tes:send fault="false">
+				<tes:data>
+					<namespace:messageElement>
+						<namespace:messageContent>
+							<csg:variableSlot name="VariableAndSlotName" />
+						</namespace:messageContent>
+					</namespace:messageElement>
+				</tes:data>
+			</tes:send>
+			<tes:receive fault="false">
+				<tes:condition>
+					<tes:expression>//namespace:replyMessageContent</tes:expression>
+					<tes:value><csg:variableSlot name="VariableAndSlotName" /></tes:value>
+				</tes:condition>
+				<csg:variableSlot name="AnotherConditionVariable" />
+			</tes:receive>
+		</tes:receiveSend>
+	</csg:messageExchange>
+</csg:variableDefinitions>

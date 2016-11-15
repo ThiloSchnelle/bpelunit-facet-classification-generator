@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:tes="http://www.bpelunit.org/schema/testSuite" 
+	xmlns:csg="bpelunit.net/classificationTreeSuiteGenerator.xsd" xmlns:namespace="NAMESPACE">
+	
+	<csg:variableDefinition name="VariableAndSlotName">
+		<csg:instance name="Instance1Name">Some Data</csg:instance>
+		<csg:instance name="Instance2Name">
+			Some Other Data
+		</csg:instance>
+	</csg:variableDefinition>
+	
+</csg:variableDefinitions>

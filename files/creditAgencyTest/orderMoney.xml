@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+	<csg:messageExchange name="OrderMoney" xmlns:tes="http://www.bpelunit.org/schema/testSuite">
+		<tes:receiveOnly service="tns:MoneyService" port="OrderMoneyPort" operation="orderMoney" fault="false">
+			<tes:condition>
+				<tes:expression>//tns:customerID</tes:expression>
+				<tes:value><csg:variableSlot name="ConsistedCustomer" /></tes:value>
+			</tes:condition>
+			<tes:condition>
+				<tes:expression>//tns:amount</tes:expression>
+				<tes:value><csg:variableSlot name="AmountCondition" /></tes:value>
+			</tes:condition>
+		</tes:receiveOnly>
+	</csg:messageExchange>
+</csg:variableDefinitions>

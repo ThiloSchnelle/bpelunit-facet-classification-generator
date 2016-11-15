@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+	<csg:messageExchange name="ApplyLoan" xmlns:tes="http://www.bpelunit.org/schema/testSuite">
+		<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="initiate" fault="false">
+			<tes:data>
+				<tns:loanApplication>
+					<tns:customerID><csg:variableSlot name="ConsistedCustomer" /></tns:customerID>
+					<tns:amount><csg:variableSlot name="ApplicationAmount" /></tns:amount>
+					<tns:numPDFs><csg:variableSlot name="NumberPDFs" /></tns:numPDFs>
+					<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+				</tns:loanApplication>
+			</tes:data>
+		</tes:sendOnly>
+	</csg:messageExchange>
+</csg:variableDefinitions>

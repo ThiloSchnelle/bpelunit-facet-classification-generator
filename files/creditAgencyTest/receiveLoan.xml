@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+	<!-- In der Praxis würden hier zwei verschiedene Nachrichtentypen definiert, da eine Fehlernachricht besser ist, als ein boolean "Erfolg?" -->
+	<csg:messageExchange name="ReceiveLoan" xmlns:tes="http://www.bpelunit.org/schema/testSuite">
+		<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+			<tes:condition>
+				<tes:expression>//tns:interest</tes:expression>
+				<tes:value><csg:variableSlot name="ConsistedCustomerInterest"/></tes:value>
+			</tes:condition>
+			<tes:condition>
+				<tes:expression>//tns:customerID</tes:expression>
+				<tes:value><csg:variableSlot name="ConsistedCustomer"/></tes:value>
+			</tes:condition>
+			<tes:condition>
+				<tes:expression>//tns:granted</tes:expression>
+				<tes:value>'<csg:variableSlot name="IsContractGranted"/>'</tes:value>
+			</tes:condition>					
+		</tes:receiveOnly>
+	</csg:messageExchange>
+	<csg:messageExchange name="ReceiveLoanNotSigned" xmlns:tes="http://www.bpelunit.org/schema/testSuite">
+		<tes:receiveOnly service="tns:ClientService" port="LoanProcessCallbackPort" operation="clientCallback" fault="false">
+			<tes:condition>
+				<tes:expression>//tns:customerID</tes:expression>
+				<tes:value><csg:variableSlot name="ConsistedCustomer"/></tes:value>
+			</tes:condition>
+			<tes:condition>
+				<tes:expression>//tns:granted</tes:expression>
+				<tes:value>'<csg:variableSlot name="IsContractGranted"/>'</tes:value>
+			</tes:condition>					
+		</tes:receiveOnly>
+	</csg:messageExchange>
+</csg:variableDefinitions>

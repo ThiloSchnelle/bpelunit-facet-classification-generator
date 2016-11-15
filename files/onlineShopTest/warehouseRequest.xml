@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:oss="www.example.org/OnlineShopSchema/" xmlns:osp="example.org/OnlineShopProcess" xmlns:os="http://www.example.org/OnlineShop/">
+	<csg:messageExchange xmlns:tes="http://www.bpelunit.org/schema/testSuite">
+		<csg:messageName>WarehouseAvailability</csg:messageName>
+		<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+			<tes:receive fault="false">
+				<!-- TODO -->
+			</tes:receive>
+			<tes:send fault="false">
+				<tes:data>
+					<oss:warehouseResponse>
+						<oss:totalPriceEur><csg:variableSlot>Gesamtpreis</csg:variableSlot></oss:totalPriceEur>
+						<oss:weightInKG>3.7</oss:weightInKG>
+						<oss:widthInMeters>0.5</oss:widthInMeters>
+						<oss:heightInMeters>0.2</oss:heightInMeters>
+						<oss:depthInMeters>0.4</oss:depthInMeters>
+						<oss:available><csg:variableSlot>ProdukteVerfügbar</csg:variableSlot></oss:available>
+						<oss:products><csg:variableSlot>ProduktListeInhalt</csg:variableSlot></oss:products>
+					</oss:warehouseResponse>
+				</tes:data>
+			</tes:send>
+		</tes:receiveSend>
+	</csg:messageExchange>
+</csg:variableDefinitions>

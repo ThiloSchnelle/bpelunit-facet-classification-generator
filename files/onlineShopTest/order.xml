@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:oss="www.example.org/OnlineShopSchema/" xmlns:osp="example.org/OnlineShopProcess" xmlns:os="http://www.example.org/OnlineShop/">
+	<csg:messageExchange xmlns:tes="http://www.bpelunit.org/schema/testSuite">
+		<csg:messageName>Order</csg:messageName>
+		<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+			<tes:data>
+				<oss:order>
+					<oss:customerInformation>
+						<oss:firstName>Max</oss:firstName>
+						<oss:lastName>Mustermann</oss:lastName>
+						<oss:address>
+							<oss:street>Beispielstraße</oss:street>
+							<oss:houseNumber>20</oss:houseNumber>
+							<oss:postalCode>12345</oss:postalCode>
+						</oss:address>
+						<oss:email>max.mustermann@example.org</oss:email>
+					</oss:customerInformation>
+					<oss:paymentMethod><csg:variableSlot>Zahlungsmethode</csg:variableSlot></oss:paymentMethod>
+					<oss:productIDList><csg:variableSlot>ProduktIDListe</csg:variableSlot></oss:productIDList>
+				</oss:order>
+			</tes:data>
+		</tes:sendOnly>
+	</csg:messageExchange>
+</csg:variableDefinitions>

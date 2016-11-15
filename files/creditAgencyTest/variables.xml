@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:tes="http://www.bpelunit.org/schema/testSuite" xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+
+	<csg:partnerTrackSequence name="clientTrack" type="client">
+		<csg:messageSlot>InitialMessage</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence name="PoliceInterface">
+		<csg:messageSlot>FraudMessage</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence name="OrderMoneyPort">
+		<csg:messageSlot>OrderMoneySlot</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence name="CreditAgencyInquiryPort">
+		<csg:messageSlot>CreditAgencyInquirySlot</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence name="ApprovalService">
+		<csg:messageSlot>ApprovalOfApplication</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:partnerTrackSequence name="ClientService">
+		<csg:messageSlot>AnswerToClient</csg:messageSlot>
+		<csg:messageSlot>AnswerFromClientToProcess</csg:messageSlot>
+		<csg:messageSlot>TransactionConfirmationSlot</csg:messageSlot>
+	</csg:partnerTrackSequence>
+	
+	<csg:variableDefinition name="AmountCondition">
+		<csg:instance name="NormalAmountCondition">100000</csg:instance>
+		<csg:instance name="HugeAmountCondition">100001</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition name="NumberPDFsCondition">
+		<csg:instance name="OnePDFCondition">
+			<tes:condition>
+				<tes:expression>//tns:numPDFs</tes:expression>
+				<tes:value>1</tes:value>
+			</tes:condition>
+		</csg:instance>
+		<csg:instance name="MorePDFsCondition">
+			<tes:condition>
+				<tes:expression>//tns:numPDFs</tes:expression>
+				<tes:value>2</tes:value>
+			</tes:condition>
+		</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition name="ApplicationAmount">
+		<csg:instance name="NormalApplicationAmount">100000</csg:instance>
+		<csg:instance name="HugeApplicationAmount">100001</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition name="NumberPDFs">
+		<csg:instance name="OnePDF">1</csg:instance>
+		<csg:instance name="MorePDFs">2</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition name="ConsistedCustomer">
+		<csg:instance name="NotConsisted">10001</csg:instance>
+		<csg:instance name="Consisted">9999</csg:instance>
+	</csg:variableDefinition>
+
+	<csg:variableDefinition name="ConsistedCustomerInterest">
+		<csg:instance name="ConsistedInterest">5</csg:instance>
+		<csg:instance name="NotConsistedInterest">7</csg:instance>
+	</csg:variableDefinition>
+
+	<csg:variableDefinition name="IsContractGranted">
+		<csg:instance name="NotGranted">false</csg:instance>
+		<csg:instance name="IsGranted">true</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition name="LoanPaidSlot">
+		<csg:instance name="LoanPaid">true</csg:instance>
+		<csg:instance name="LoanNotPaid">false</csg:instance>
+	</csg:variableDefinition>
+	
+</csg:variableDefinitions>

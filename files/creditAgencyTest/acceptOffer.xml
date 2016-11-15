@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+	<csg:messageExchange name="AcceptOffer" xmlns:tes="http://www.bpelunit.org/schema/testSuite">
+		<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="acceptOffer" fault="false">
+			<tes:data>
+				<tns:acceptOffer>
+					<tns:customerID><csg:variableSlot name="ConsistedCustomer" /></tns:customerID>
+				</tns:acceptOffer>
+			</tes:data>
+		</tes:sendOnly>
+	</csg:messageExchange>
+</csg:variableDefinitions>
