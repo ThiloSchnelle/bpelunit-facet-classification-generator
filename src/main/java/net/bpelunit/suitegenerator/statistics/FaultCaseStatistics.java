@@ -33,7 +33,7 @@ public class FaultCaseStatistics {
 
 	@Override
 	public String toString() {
-		String res = faultCases.size() + "/" + stat.getNumTestCases() + " TestCases contain(s) a fault element. " + moreThanOneFaultCases.size() + " case(s) conatin(s) more than one FaultElement.";
+		String res = faultCases.size() + "/" + stat.getNumTestCases() + " TestCases contain(s) a fault element. " + moreThanOneFaultCases.size() + " case(s) contain(s) more than one FaultElement.";
 		return res;
 	}
 

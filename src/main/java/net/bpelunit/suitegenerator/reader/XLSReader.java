@@ -118,14 +118,17 @@ public class XLSReader implements IClassificationReader {
 		}
 		for (; tmp <= maxRow; tmp++) {
 			Row r = classification.getRow(tmp);
-			readCase(r, stat);
+			if(!isEmptyRow(r)) {
+				readCase(r, stat);
+			}
 		}
 	}
 
 	private int readTree(Sheet classification, int i, int maxRow) {
 		int tmp = 0;
 		for (; i <= maxRow; i++) {
-			Cell c = classification.getRow(i).getCell(0);
+			Row row = classification.getRow(i);
+			Cell c = row != null ? row.getCell(0) : null;
 			if (c != null && c.toString().equals(Config.get().getTableStart())) {
 				tmp = readClassification(classification, i + 1, maxRow);
 				break;
@@ -157,53 +160,65 @@ public class XLSReader implements IClassificationReader {
 		}
 	}
 
-	private int readClassification(Sheet classification, int i, int maxRow) {
-		for (int line = 0; i <= maxRow; i++, line++) {
-			Row r = classification.getRow(i);
+	private int readClassification(Sheet classification, int startIndex, int maxRow) {
+		for (int line = 0; startIndex <= maxRow; startIndex++, line++) {
+			Row r = classification.getRow(startIndex);
 			IClassificationElement element = getXLSColumn(0).getElement();
+			if(isEmptyRow(r)) {
+				return startIndex;
+			}
+			
 			for (int n = 1; n < r.getLastCellNum(); n++) {
-				XLSColumn coll = getXLSColumn(n - 1);
+				XLSColumn col = getXLSColumn(n - 1);
 				Cell c = r.getCell(n);
-				if ((c == null || c.toString().trim().isEmpty()) && n == 1) {
-					return i;
-				}
 				boolean fresh = false;
-				if (c != null && !c.toString().trim().isEmpty()) {
+				if (!isEmpty(c)) {
 					fresh = true;
 					String s = c.toString().trim();
-					// System.out.print(s + " ");
 					IClassificationElement neu = null;
 					if (line == 0) {
 						neu = new ClassificationVariable(s, true);
 					} else {
-						Row rNext = classification.getRow(i + 1);
+						Row rNext = classification.getRow(startIndex + 1);
 						Cell cNext = null;
 						if (rNext != null) {
 							cNext = rNext.getCell(n);
 						}
-						neu = readVariable(s, cNext, coll);
+						neu = readVariable(s, cNext, col);
 					}
-					coll.getElement().addChild(neu);
+					col.getElement().addChild(neu);
 					element = neu;
 				}
-				updateColumn(coll, element, fresh);
+				updateColumn(col, element, fresh);
 			}
-			// System.out.println();
 		}
-		return i;
+		return startIndex;
+	}
+
+	private boolean isEmptyRow(Row r) {
+		for(int i = 1; i < r.getLastCellNum(); i++) {
+			if(!isEmpty(r.getCell(i))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	private boolean isEmpty(Cell cell) {
+		return ((cell == null || cell.toString().trim().isEmpty()));
 	}
 
 	private void updateColumn(XLSColumn coll, IClassificationElement element, boolean fresh) {
 		if (fresh) {
-			coll.flagIsFilledSpecifically();
+			coll.markFlagIsFilledSpecifically();
 		}
 		if (fresh || !coll.isFilledSpecifically()) {
 			coll.setClassificationElement(element);
 		}
 	}
 
-	private IClassificationElement readVariable(String s, Cell cell, XLSColumn coll) {
-		if (cell == null || cell.toString().isEmpty()) {
+	private IClassificationElement readVariable(String s, Cell cell, XLSColumn col) {
+		if (isEmpty(cell)) {
 			ClassificationVariableSelection inst = new ClassificationVariableSelection(s);
 			leaves.add(inst);
 			return inst;
