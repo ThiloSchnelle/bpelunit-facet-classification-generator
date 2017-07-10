@@ -34,7 +34,7 @@ public class XLSColumn {
 		return isFilledSpecifically;
 	}
 
-	public void flagIsFilledSpecifically() {
+	public void markFlagIsFilledSpecifically() {
 		isFilledSpecifically = true;
 	}
 
