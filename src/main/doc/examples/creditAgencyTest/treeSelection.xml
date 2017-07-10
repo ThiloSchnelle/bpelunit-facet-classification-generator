@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<csg:mappings xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd">
+<csg:mappings xmlns:csg="bpelunit.net/classificationTreeSuiteGenerator.xsd">
 	
 	<csg:mapping name="BaseSelection">
 		<csg:useVariable variableName="ApplicationAmount" variableInstance="NormalApplicationAmount" />
