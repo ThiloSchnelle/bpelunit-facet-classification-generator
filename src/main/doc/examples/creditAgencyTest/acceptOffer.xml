@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+<csg:variableDefinitions xmlns:csg="bpelunit.net/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
 	<csg:messageExchange name="AcceptOffer" xmlns:tes="http://www.bpelunit.org/schema/testSuite">
 		<tes:sendOnly service="tns:LoanProcessService" port="LoanProcessPort" operation="acceptOffer" fault="false">
 			<tes:data>
