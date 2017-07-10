@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:oss="www.example.org/OnlineShopSchema/" xmlns:osp="example.org/OnlineShopProcess" xmlns:os="http://www.example.org/OnlineShop/">
-	<csg:messageExchange xmlns:tes="http://www.bpelunit.org/schema/testSuite">
-		<csg:messageName>FreightCompanyRequest</csg:messageName>
+<csg:variableDefinitions xmlns:csg="bpelunit.net/classificationTreeSuiteGenerator.xsd" xmlns:oss="www.example.org/OnlineShopSchema/" xmlns:osp="example.org/OnlineShopProcess" xmlns:os="http://www.example.org/OnlineShop/">
+	<csg:messageExchange xmlns:tes="http://www.bpelunit.org/schema/testSuite" name="FreightCompanyRequest">
 		<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
 			<tes:receive fault="false">
 				<!-- TODO -->
@@ -9,7 +8,7 @@
 			<tes:send fault="false">
 				<tes:data>
 					<oss:freightCompanyResponse>
-						<oss:possible><csg:variableSlot>Versanderfolg</csg:variableSlot></oss:possible>
+						<oss:possible><csg:variableSlot name="Versanderfolg" /></oss:possible>
 						<oss:priceInEur>6.99</oss:priceInEur>
 						<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
 					</oss:freightCompanyResponse>

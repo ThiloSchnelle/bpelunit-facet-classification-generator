@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<csg:variableDefinitions xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:oss="www.example.org/OnlineShopSchema/" xmlns:osp="example.org/OnlineShopProcess" xmlns:os="http://www.example.org/OnlineShop/">
-	<csg:messageExchange xmlns:tes="http://www.bpelunit.org/schema/testSuite">
-		<csg:messageName>AccountingRequest</csg:messageName>
+<csg:variableDefinitions xmlns:csg="bpelunit.net/classificationTreeSuiteGenerator.xsd" xmlns:oss="www.example.org/OnlineShopSchema/" xmlns:osp="example.org/OnlineShopProcess" xmlns:os="http://www.example.org/OnlineShop/">
+	<csg:messageExchange xmlns:tes="http://www.bpelunit.org/schema/testSuite" name="AccountingRequest">
 		<tes:receiveSend service="os:Accounting" port="AccountingPort" operation="accountingInformation">
 			<tes:receive fault="false">
 				<!-- TODO -->

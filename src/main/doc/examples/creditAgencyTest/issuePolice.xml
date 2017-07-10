@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<csg:messageExchange name="IssuePolice" xmlns:tes="http://www.bpelunit.org/schema/testSuite" xmlns:csg="www.example.org/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
+<csg:messageExchange name="IssuePolice" xmlns:tes="http://www.bpelunit.org/schema/testSuite" xmlns:csg="bpelunit.net/classificationTreeSuiteGenerator.xsd" xmlns:tns="se.uni-hannover.de/example/loanProcess">
 	<tes:receiveOnly service="tns:PoliceInterface" port="PolicePort" operation="reportFraud"  fault="false">
 		<tes:condition>
 			<tes:expression>//tns:amount</tes:expression>
