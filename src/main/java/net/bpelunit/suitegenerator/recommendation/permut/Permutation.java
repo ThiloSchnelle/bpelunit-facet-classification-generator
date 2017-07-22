@@ -24,8 +24,12 @@ public class Permutation extends Recommender {
 	private List<Test> tests = new LinkedList<>();
 	Map<ClassificationVariable, List<Selection>> roots;
 
-	public Permutation(IStatistics statistic, VariableLibrary variables, Classification classification) {
-		super(statistic, variables, classification);
+	public Permutation() {
+	}
+
+	@Override
+	public void setClassificationData(IStatistics stat, VariableLibrary variables, Classification classification) {
+		super.setClassificationData(stat, variables, classification);
 		pairs = new Pairs(forbidden);
 		roots = copyHashMap(new HashMap<ClassificationVariable, List<Selection>>(), statistic.getRootVariables());
 
@@ -34,7 +38,7 @@ public class Permutation extends Recommender {
 		pairs.setupDone();
 		createTests();
 	}
-
+	
 	@Override
 	protected void createRecommendations() {
 		super.createRecommendations();

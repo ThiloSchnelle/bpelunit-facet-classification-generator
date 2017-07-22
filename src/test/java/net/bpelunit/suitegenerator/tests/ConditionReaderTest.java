@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import net.bpelunit.suitegenerator.recommendation.permut.ConditionParser;
+import net.bpelunit.suitegenerator.datastructures.conditions.ConditionParser;
 
 public class ConditionReaderTest {
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariable;
+import net.bpelunit.suitegenerator.datastructures.conditions.ICondition;
 import net.bpelunit.suitegenerator.statistics.Selection;
 
 public class Pair {

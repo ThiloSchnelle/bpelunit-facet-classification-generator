@@ -21,10 +21,10 @@ import net.bpelunit.suitegenerator.datastructures.classification.ClassificationT
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariable;
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariableSelection;
 import net.bpelunit.suitegenerator.datastructures.classification.IClassificationElement;
+import net.bpelunit.suitegenerator.datastructures.conditions.ConditionBundle;
+import net.bpelunit.suitegenerator.datastructures.conditions.ConditionParser;
+import net.bpelunit.suitegenerator.datastructures.conditions.ICondition;
 import net.bpelunit.suitegenerator.datastructures.testcases.TestCase;
-import net.bpelunit.suitegenerator.recommendation.permut.ConditionBundle;
-import net.bpelunit.suitegenerator.recommendation.permut.ConditionParser;
-import net.bpelunit.suitegenerator.recommendation.permut.ICondition;
 import net.bpelunit.suitegenerator.statistics.IStatistics;
 
 public class XLSReader implements IClassificationReader {

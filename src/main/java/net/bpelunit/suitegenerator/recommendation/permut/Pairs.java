@@ -7,6 +7,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariable;
+import net.bpelunit.suitegenerator.datastructures.conditions.ICondition;
 import net.bpelunit.suitegenerator.statistics.Selection;
 
 public class Pairs {

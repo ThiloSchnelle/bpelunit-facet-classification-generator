@@ -3,7 +3,7 @@ package net.bpelunit.suitegenerator.statistics;
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariable;
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariableSelection;
 import net.bpelunit.suitegenerator.datastructures.classification.IClassificationElement;
-import net.bpelunit.suitegenerator.recommendation.permut.IOperand;
+import net.bpelunit.suitegenerator.datastructures.conditions.IOperand;
 import net.bpelunit.suitegenerator.util.Copyable;
 
 public class Selection implements Copyable<Selection>, IOperand {

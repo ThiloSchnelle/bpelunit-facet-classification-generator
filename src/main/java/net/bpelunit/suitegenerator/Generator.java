@@ -8,8 +8,7 @@ import net.bpelunit.suitegenerator.datastructures.variables.DataVariableInstance
 import net.bpelunit.suitegenerator.reader.IClassificationReader;
 import net.bpelunit.suitegenerator.reader.ICodeFragmentReader;
 import net.bpelunit.suitegenerator.reader.ReaderFactory;
-import net.bpelunit.suitegenerator.recommendation.Recommender;
-import net.bpelunit.suitegenerator.recommendation.permut.Permutation;
+import net.bpelunit.suitegenerator.recommendation.IRecommender;
 import net.bpelunit.suitegenerator.statistics.IStatistics;
 import net.bpelunit.suitegenerator.statistics.Statistics;
 import net.bpelunit.suitegenerator.suitebuilder.SuiteBuilder;
@@ -31,7 +30,7 @@ public class Generator {
 		Config.get().out().printClassificationTree(tree);
 	}
 
-	public void generate(File folder, boolean createRecommendations, boolean createNewTestCases, String suiteFileName) {
+	public void generate(File folder, IRecommender recommender, boolean createNewTestCases, String suiteFileName) {
 		SuiteBuilder sb = new SuiteBuilder();
 		sb.buildSuite(fragmentReader.getSkeletalStructure(), classificationReader.getClassification(), folder,
 				fragmentReader);
@@ -46,12 +45,11 @@ public class Generator {
 				// System.out.println(d.getVariableName() + ":" + d.getInstanceName() + ": " + d.getNumberUsages());
 			}
 		}
-		if (createRecommendations) {
-			Recommender r = new Permutation(stat, fragmentReader.getVariables(),
-					classificationReader.getClassification());
-			Config.get().out().printRecommendation(r.getRecommendations());
+		if (recommender != null) {
+			recommender.setClassificationData(stat, fragmentReader.getVariables(), classificationReader.getClassification());
+			Config.get().out().printRecommendation(recommender.getRecommendations());
 			if (createNewTestCases) {
-				sb.addRecommendations(r);
+				sb.addRecommendations(recommender);
 			}
 		}
 		

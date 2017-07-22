@@ -1,4 +1,4 @@
-package net.bpelunit.suitegenerator.recommendation.permut;
+package net.bpelunit.suitegenerator.datastructures.conditions;
 
 import java.util.LinkedList;
 import java.util.List;

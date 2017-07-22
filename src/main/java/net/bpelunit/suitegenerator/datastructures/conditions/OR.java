@@ -1,18 +1,18 @@
-package net.bpelunit.suitegenerator.recommendation.permut;
+package net.bpelunit.suitegenerator.datastructures.conditions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AND implements ICondition {
+public class OR implements ICondition {
 
 	private ICondition first, second;
 
-	public AND(ICondition first, ICondition second) {
+	public OR(ICondition first, ICondition second) {
 		this.first = first;
 		this.second = second;
 	}
 
-	public AND() {
+	public OR() {
 
 	}
 
@@ -26,15 +26,15 @@ public class AND implements ICondition {
 	}
 
 	/**
-	 * Returns true if both contained conditions hold for the given Operands
+	 * Returns true if either of the contained conditions holds for the given Operands
 	 */
 	@Override
 	public boolean evaluate(List<? extends IOperand> ops) {
-		return first.evaluate(ops) && second.evaluate(ops);
+		return first.evaluate(ops) || second.evaluate(ops);
 	}
 
 	/**
-	 * Returns true if both contained conditions hold for the given Operands
+	 * Returns true if either of the contained conditions holds for the given Operands
 	 */
 	@Override
 	public boolean evaluate(List<? extends IOperand> ops, IOperand additional) {
@@ -44,7 +44,7 @@ public class AND implements ICondition {
 	}
 
 	/**
-	 * Returns true if both contained conditions hold for the given Operands
+	 * Returns true if either of the contained conditions holds for the given Operands
 	 */
 	@Override
 	public boolean evaluate(IOperand... ops) {
@@ -58,9 +58,9 @@ public class AND implements ICondition {
 	@Override
 	public String toString() {
 		if (first == null || second == null) {
-			return "AND";
+			return "OR";
 		}
-		return "(" + first + " && " + second + ")";
+		return "(" + first + " || " + second + ")";
 	}
 
 }

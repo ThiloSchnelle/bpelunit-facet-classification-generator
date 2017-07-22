@@ -18,8 +18,8 @@ import net.bpelunit.suitegenerator.datastructures.classification.ClassificationV
 import net.bpelunit.suitegenerator.datastructures.testcases.TestCase;
 import net.bpelunit.suitegenerator.datastructures.variables.VariableLibrary;
 import net.bpelunit.suitegenerator.reader.ICodeFragmentReader;
+import net.bpelunit.suitegenerator.recommendation.IRecommender;
 import net.bpelunit.suitegenerator.recommendation.Recommendation;
-import net.bpelunit.suitegenerator.recommendation.Recommender;
 import net.bpelunit.suitegenerator.util.XMLElementOutput;
 
 public class SuiteBuilder {
@@ -74,7 +74,7 @@ public class SuiteBuilder {
 		}
 	}
 
-	public void addRecommendations(Recommender recommender) {
+	public void addRecommendations(IRecommender recommender) {
 		int num = 1;
 		for (Recommendation r : recommender.getRecommendations()) {
 			List<String> classificationNames = new ArrayList<>();
