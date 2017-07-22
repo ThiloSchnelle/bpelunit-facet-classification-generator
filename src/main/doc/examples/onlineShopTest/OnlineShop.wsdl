@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions name="OnlineShop" targetNamespace="http://www.example.org/OnlineShop/" xmlns:os="http://www.example.org/OnlineShop/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:oss="www.example.org/OnlineShopSchema/" >
+
+  <wsdl:message name="orderItemsRequest">
+    <wsdl:part name="payload" element="oss:order"/>
+  </wsdl:message>
+
+  <wsdl:message name="checkWarehouseRequest">
+  	<wsdl:part name="payload" element="oss:warehouseRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="checkWarehouseResponse">
+  	<wsdl:part name="payload" element="oss:warehouseResponse"></wsdl:part>
+  </wsdl:message>
+
+  <wsdl:message name="notAvailableMsgResponse">
+  	<wsdl:part name="payload" element="oss:notAvailableMsg"></wsdl:part>
+  </wsdl:message>
+
+  <wsdl:message name="freightErrorResponse">
+  	<wsdl:part name="payload" element="oss:freightError"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="notifyShippingRequest">
+  	<wsdl:part name="payload" element="oss:warehouseShippingRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="notifyShippingResponse">
+  	<wsdl:part name="payload" element="oss:warehouseShippingResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="shippingSucceededNotifyResponse">
+  	<wsdl:part name="payload" element="oss:shippingSucceeded"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="confirmOrderResponse">
+  	<wsdl:part name="payload" element="oss:orderConfirmation"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="freightRequestRequest">
+  	<wsdl:part name="payload" element="oss:freightCompanyRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="freightRequestResponse">
+  	<wsdl:part name="payload" element="oss:freightCompanyResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="accountingInformationRequest">
+  	<wsdl:part name="payload" element="oss:accountingRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="accountingInformationResponse">
+  	<wsdl:part name="payload" element="oss:accountingResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="OnlineShop">
+    <wsdl:operation name="orderItems">
+      <wsdl:input message="os:orderItemsRequest"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WarehouseCheck">
+  	<wsdl:operation name="checkWarehouse">
+  		<wsdl:input message="os:checkWarehouseRequest"></wsdl:input>
+  		<wsdl:output message="os:checkWarehouseResponse"></wsdl:output>
+  	</wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="ClientPortType">
+  	<wsdl:operation name="notAvailableMsg">
+            <wsdl:input message="os:notAvailableMsgResponse"></wsdl:input>
+  	</wsdl:operation>
+  	<wsdl:operation name="freightError">
+  		<wsdl:input message="os:freightErrorResponse"></wsdl:input>
+  	</wsdl:operation>
+  	<wsdl:operation name="shippingSucceededNotify">
+  		<wsdl:input message="os:shippingSucceededNotifyResponse"></wsdl:input>
+  	</wsdl:operation>
+  	<wsdl:operation name="confirmOrder">
+		<wsdl:input message="os:confirmOrderResponse"></wsdl:input>
+  	</wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="WarehouseShipping">
+  	<wsdl:operation name="notifyShipping">
+  		<wsdl:input message="os:notifyShippingRequest"></wsdl:input>
+  		<wsdl:output message="os:notifyShippingResponse"></wsdl:output>
+  	</wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="FreightCompany">
+  	<wsdl:operation name="freightRequest">
+  		<wsdl:input message="os:freightRequestRequest"></wsdl:input>
+  		<wsdl:output message="os:freightRequestResponse"></wsdl:output>
+  	</wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Accounting">
+  	<wsdl:operation name="accountingInformation">
+  		<wsdl:input message="os:accountingInformationRequest"></wsdl:input>
+  		<wsdl:output message="os:accountingInformationResponse"></wsdl:output>
+  	</wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OnlineShopSOAP" type="os:OnlineShop">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="orderItems">
+      <soap:operation soapAction="http://www.example.org/OnlineShop/orderItems"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:binding name="WarehouseBinding" type="os:WarehouseCheck">
+
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="checkWarehouse">
+
+  		<soap:operation
+  			soapAction="http://www.example.org/OnlineShop/checkWarehouse" />
+  		<wsdl:input>
+
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="WarehouseShipping" type="os:WarehouseShipping">
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="notifyShipping">
+  		<soap:operation
+  			soapAction="http://www.example.org/OnlineShop/notifyShipping" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ClientPortTypeBinding" type="os:ClientPortType">
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="notAvailableMsg">
+  		<soap:operation
+  			soapAction="http://www.example.org/OnlineShop/notAvailableMsg" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  	</wsdl:operation>
+  	<wsdl:operation name="freightError">
+  		<soap:operation
+  			soapAction="http://www.example.org/OnlineShop/freightError" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  	</wsdl:operation>
+  	<wsdl:operation name="confirmOrder">
+  		<soap:operation
+  			soapAction="http://www.example.org/OnlineShop/confirmOrder" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  	</wsdl:operation>
+  	<wsdl:operation name="shippingSucceededNotify">
+  		<soap:operation
+  			soapAction="http://www.example.org/OnlineShop/shippingSucceededNotify" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  	</wsdl:operation>
+  </wsdl:binding>
+ 
+  <wsdl:binding name="AccountingBinding" type="os:Accounting">
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="accountingInformation">
+  		<soap:operation
+  			soapAction="http://www.example.org/OnlineShop/accountingInformation" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+  		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="FreightCompanyBinding" type="os:FreightCompany">
+
+  	<soap:binding style="document"
+  		transport="http://schemas.xmlsoap.org/soap/http" />
+  	<wsdl:operation name="freightRequest">
+
+  		<soap:operation
+  			soapAction="http://www.example.org/OnlineShop/freightRequest" />
+  		<wsdl:input>
+  			<soap:body use="literal" />
+  		</wsdl:input>
+		<wsdl:output>
+  			<soap:body use="literal" />
+  		</wsdl:output>
+  	</wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OnlineShop">
+    <wsdl:port binding="os:OnlineShopSOAP" name="OnlineShopSOAP">
+      <soap:address location="http://localhost:8080/active-bpel/services/Thilo_OnlineShop"/>
+    </wsdl:port>
+  </wsdl:service>
+  <wsdl:service name="Warehouse">
+  	<wsdl:port name="WarehouseCheckPort" binding="os:WarehouseBinding">
+  		<soap:address location="http://localhost:7777/ws/Warehouse" />
+  	</wsdl:port>
+  	<wsdl:port name="WarehouseShippingPort" binding="os:WarehouseShipping">
+  		<soap:address location="http://localhost:7777/ws/WarehouseShippingPort" /></wsdl:port>
+  </wsdl:service>
+  <wsdl:service name="Client">
+  	<wsdl:port name="ClientPort" binding="os:ClientPortTypeBinding">
+  		<soap:address location="http://localhost:7777/ws/ClientPort" />
+  	</wsdl:port>
+  </wsdl:service>
+  <wsdl:service name="Accounting">
+  	<wsdl:port name="AccountingPort" binding="os:AccountingBinding">
+  		<soap:address location="http://localhost:7777/ws/Accounting" />
+  	</wsdl:port>
+  </wsdl:service>
+  <wsdl:service name="FreightCompany">
+  	<wsdl:port name="FreightCompanyPort" binding="os:FreightCompanyBinding">
+  		<soap:address location="http://localhost:7777/ws/FreightCompany" />
+  	</wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

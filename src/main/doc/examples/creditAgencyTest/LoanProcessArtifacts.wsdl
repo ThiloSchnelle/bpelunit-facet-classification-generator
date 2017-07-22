@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="se.uni-hannover.de/example/loanProcess" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop" xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="LoanProcess" targetNamespace="se.uni-hannover.de/example/loanProcess">
+<vprop:property name="customerID" type="xsd:integer" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop"/>
+<vprop:propertyAlias messageType="tns:acceptOffer" part="payload" propertyName="tns:customerID" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+   <vprop:query>tns:customerID</vprop:query>
+</vprop:propertyAlias>
+<vprop:propertyAlias messageType="tns:declineOffer" part="payload" propertyName="tns:customerID" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+   <vprop:query>tns:customerID</vprop:query>
+</vprop:propertyAlias>
+<vprop:propertyAlias messageType="tns:loanProcessRequestMessage" part="payload" propertyName="tns:customerID" xmlns:vprop="http://docs.oasis-open.org/wsbpel/2.0/varprop">
+   <vprop:query>tns:customerID</vprop:query>
+</vprop:propertyAlias>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		TYPE DEFINITION - List of services participating in this BPEL process The 
+		default output of the BPEL designer uses strings as input and output to the 
+		BPEL Process. But you can define or import any XML Schema type and us them 
+		as part of the message types. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <types>
+		<xsd:schema elementFormDefault="qualified" targetNamespace="se.uni-hannover.de/example/loanProcess">
+			<xsd:element name="loanApplication">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+						<xsd:element name="amount" type="xsd:float"/>
+						<xsd:element name="numPDFs" type="xsd:int"/>
+						<xsd:element name="mortgageLendingPercentage" type="xsd:float"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="loanApplicationResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+						<xsd:element name="granted" type="xsd:boolean"/>
+						<xsd:element name="interest" type="xsd:float"/>
+						<xsd:element name="surcharge" type="xsd:float"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="reportFraud">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+						<xsd:element name="amount" type="xsd:float"/>
+						<xsd:element name="message" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="approveLoan">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+						<xsd:element name="amount" type="xsd:float"/>
+						<xsd:element name="numPDFs" type="xsd:int"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="approveLoanResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+						<xsd:element name="granted" type="xsd:boolean"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="creditAgencyInquiry">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="creditAgencyInquiryResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+						<xsd:element name="score" type="xsd:float"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="acceptOffer">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="declineOffer">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="transactionConfirmation">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+						<xsd:element name="loanPaid" type="xsd:boolean"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="orderMoney">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="customerID" type="xsd:int"/>
+						<xsd:element name="amount" type="xsd:float"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+	</types>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		MESSAGE TYPE DEFINITION - Definition of the message types used as part of 
+		the port type defintions ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<message name="loanProcessRequestMessage">
+		<part element="tns:loanApplication" name="payload"/>
+	</message>
+
+	<message name="loanProcessResponseMessage">
+		<part element="tns:loanApplicationResponse" name="payload"/>
+	</message>
+
+	<message name="approveLoanRequest">
+		<part element="tns:approveLoan" name="payload"/>
+	</message>
+	
+	<message name="approveLoanResponse">
+		<part element="tns:approveLoanResponse" name="payload"/>
+	</message>
+	
+	<message name="reportFraudRequest">
+		<part element="tns:reportFraud" name="payload"/>
+	</message>
+	
+	<message name="creditAgencyInquiryRequest">
+		<part element="tns:creditAgencyInquiry" name="payload"/>
+	</message>
+	
+	<message name="creditAgencyInquiryResponse">
+		<part element="tns:creditAgencyInquiryResponse" name="payload"/>
+	</message>
+	
+	<message name="declineOffer">
+		<part element="tns:declineOffer" name="payload"/>
+	</message>
+	
+	<message name="acceptOffer">
+		<part element="tns:acceptOffer" name="payload"/>
+	</message>
+	
+	<message name="transactionConfirmation">
+		<part element="tns:transactionConfirmation" name="payload"/>
+	</message>
+	
+	<message name="orderMoney">
+		<part element="tns:orderMoney" name="payload"/>
+	</message>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		PORT TYPE DEFINITION - A port type groups a set of operations into a logical 
+		service unit. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<!-- portType implemented by the LoanProcess BPEL process -->
+	<portType name="LoanProcess">
+		<operation name="initiate">
+			<input message="tns:loanProcessRequestMessage"/>
+		</operation>
+		<operation name="acceptOffer">
+			<input message="tns:acceptOffer"/>
+		</operation>
+		<operation name="declineOffer">
+			<input message="tns:declineOffer"/>
+		</operation>
+	</portType>
+
+	<portType name="ApprovalService">
+		<operation name="approveLoan">
+			<input message="tns:approveLoanRequest"/>
+			<output message="tns:approveLoanResponse"/>
+		</operation>
+	</portType>
+	
+	<portType name="CreditAgencyInquiry">
+		<operation name="inquire">
+			<input message="tns:creditAgencyInquiryRequest"/>
+			<output message="tns:creditAgencyInquiryResponse"/>
+		</operation>
+	</portType>
+	
+	<portType name="ReportFraud">
+		<operation name="reportFraud">
+			<input message="tns:reportFraudRequest"/>
+		</operation>
+	</portType>
+	
+	<portType name="LoanProcessCallback">
+		<operation name="clientCallback">
+			<input message="tns:loanProcessResponseMessage"/>
+		</operation>
+		<operation name="confirmTransaction">
+			<input message="tns:transactionConfirmation"/>
+		</operation>
+	</portType>
+	
+	<portType name="OrderMoney">
+		<operation name="orderMoney">
+			<input message="tns:orderMoney"/>
+		</operation>
+	</portType>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		PARTNER LINK TYPE DEFINITION the LoanProcess partnerLinkType binds the provider 
+		and requester portType into an asynchronous conversation. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<plnk:partnerLinkType name="LoanProcessPLT">
+		<plnk:role name="LoanProcessProvider" portType="tns:LoanProcess"/>
+		<plnk:role name="LoanProcessRequester" portType="tns:LoanProcessCallback"/>
+	</plnk:partnerLinkType>
+
+	<plnk:partnerLinkType name="PoliceServicePLT">
+		<plnk:role name="PoliceServiceProvider" portType="tns:ReportFraud"/>
+	</plnk:partnerLinkType>
+	
+	<plnk:partnerLinkType name="ApprovalServicePLT">
+		<plnk:role name="ApprovalServiceProvider" portType="tns:ApprovalService"/>
+	</plnk:partnerLinkType>
+	
+	<plnk:partnerLinkType name="CreditAgencyPLT">
+		<plnk:role name="CreditAgencyProvider" portType="tns:CreditAgencyInquiry"/>
+	</plnk:partnerLinkType>
+	    <plnk:partnerLinkType name="OrderMoneyPLT">
+	    <plnk:role name="OrderMoneyProvider" portType="tns:OrderMoney"/>
+	  </plnk:partnerLinkType>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		BINDING DEFINITION - Defines the message format and protocol details for 
+		a web service. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<binding name="LoanProcessPortBinding" type="tns:LoanProcess">
+
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<operation name="initiate">
+
+			<soap:operation
+				soapAction="se.uni-hannover.de/example/loanProcess/initiate" />
+			<input>
+
+				<soap:body use="literal" />
+			</input>
+
+		</operation>
+		<operation name="acceptOffer">
+
+			<soap:operation
+				soapAction="se.uni-hannover.de/example/loanProcess/acceptOffer" />
+			<input>
+
+				<soap:body use="literal" />
+			</input>
+		</operation>
+		<operation name="declineOffer">
+
+			<soap:operation
+				soapAction="se.uni-hannover.de/example/loanProcess/declineOffer" />
+			<input>
+
+				<soap:body use="literal" />
+			</input>
+		</operation>
+	</binding>
+
+	<binding name="ApprovalPortBinding" type="tns:ApprovalService">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="approveLoan">
+			<soap:operation soapAction="se.uni-hannover.de/example/loanProcess/approveLoan"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+	
+	<binding name="CreditAgencyPortBinding" type="tns:CreditAgencyInquiry">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="inquire">
+			<soap:operation soapAction="se.uni-hannover.de/example/loanProcess/inquire"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+			<output>
+				<soap:body use="literal"/>
+			</output>
+		</operation>
+	</binding>
+
+	<binding name="PolicePortBinding" type="tns:ReportFraud">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="reportFraud">
+			<soap:operation soapAction="se.uni-hannover.de/example/loanProcess/reportFraud"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+		</operation>
+	</binding>
+	
+	<binding name="LoanProcessCallbackBinding" type="tns:LoanProcessCallback">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="clientCallback">
+			<soap:operation soapAction="se.uni-hannover.de/example/loanProcess/clientCallback"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+		</operation>
+		<operation name="confirmTransaction">
+			<soap:operation soapAction="se.uni-hannover.de/example/loanProcess/confirmTransaction"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+		</operation>
+	</binding>
+	
+	
+	<binding name="OrderMoneyPortBinding" type="tns:OrderMoney">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<operation name="orderMoney">
+			<soap:operation soapAction="se.uni-hannover.de/example/loanProcess/orderMoney"/>
+			<input>
+				<soap:body use="literal"/>
+			</input>
+		</operation>
+	</binding>
+
+	<!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+		SERVICE DEFINITION - A service groups a set of ports into a service unit. 
+		~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+	<service name="LoanProcessService">
+		<port binding="tns:LoanProcessPortBinding" name="LoanProcessPort">
+			<soap:address location="http://localhost:8080/active-bpel/services/Thilo_LoanProcess"/>
+		</port>
+	</service>
+
+	<service name="ApprovalService">
+		<port binding="tns:ApprovalPortBinding" name="ApprovalPort">
+			<soap:address location="http://localhost:7777/ws/ApprovalService"/>
+		</port>
+	</service>
+	
+	<service name="CreditAgency">
+		<port binding="tns:CreditAgencyPortBinding" name="InquiryPort">
+			<soap:address location="http://localhost:7777/ws/CreditAgencyInquiryPort"/>
+		</port>
+	</service>
+	
+	<service name="PoliceInterface">
+		<port binding="tns:PolicePortBinding" name="PolicePort">
+			<soap:address location="http://localhost:7777/ws/PoliceInterface"/>
+		</port>
+	</service>
+	<service name="ClientService">
+		<port binding="tns:LoanProcessCallbackBinding" name="LoanProcessCallbackPort">
+			<soap:address location="http://localhost:7777/ws/ClientService"/>
+		</port>
+	</service>
+	<service name="MoneyService">
+		<port binding="tns:OrderMoneyPortBinding" name="OrderMoneyPort">
+			<soap:address location="http://localhost:7777/ws/OrderMoneyPort"/>
+		</port>
+	</service>
+</definitions>

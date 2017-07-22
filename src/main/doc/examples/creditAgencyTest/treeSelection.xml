@@ -4,7 +4,6 @@
 	<csg:mapping name="BaseSelection">
 		<csg:useVariable variableName="ApplicationAmount" variableInstance="NormalApplicationAmount" />
 		<csg:useVariable variableName="AmountCondition" variableInstance="NormalAmountCondition" />
-		<csg:useVariable variableName="IsContractGranted" variableInstance="IsGranted" />
 		<csg:useMessageExchange messageName="SignContract" messageSlot="ApprovalOfApplication" />
 	</csg:mapping>
 	
@@ -13,6 +12,7 @@
 		<csg:useMessageExchange messageName="ApplyLoan" messageSlot="InitialMessage" />
 		<csg:useMessageExchange messageName="ReceiveLoan" messageSlot="AnswerToClient" />
 		<csg:useMessageExchange messageName="CreditAgencyInquiry" messageSlot="CreditAgencyInquirySlot" />
+		<csg:useVariable variableName="IsContractGranted" variableInstance="IsGranted" />
 	</csg:mapping>
 	
 	<csg:mapping name="Betrag:Okay:NichtSignieren">
