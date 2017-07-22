@@ -21,4 +21,6 @@ public interface IVariableInstance extends IVariable {
 
 	public int getNumberUsages();
 
+	public void replaceWithVariable(VariableSlot vs);
+
 }

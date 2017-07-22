@@ -37,12 +37,9 @@ public class MessageExchangeInstance extends BaseInstance {
 				Element parent = var.getParentElement();
 				if (parent != null) {
 					toDetach.add(var);
-					addSlot(new VariableSlot(parent, name));
+					addSlot(new VariableSlot(var, name));
 				}
 			}
-		}
-		for (Element e : toDetach) {
-			e.detach();
 		}
 	}
 
@@ -61,7 +58,7 @@ public class MessageExchangeInstance extends BaseInstance {
 			if (slotList != null) {
 				IVariableInstance inst = instanceForVarName.get(slotName);
 				for (VariableSlot vs : slotList) {
-					inst.attachToElement(vs.getParent());
+					inst.replaceWithVariable(vs);
 				}
 			}
 		}

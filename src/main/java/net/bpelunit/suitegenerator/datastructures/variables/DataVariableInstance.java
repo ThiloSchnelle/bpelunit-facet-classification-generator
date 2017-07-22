@@ -20,5 +20,5 @@ public class DataVariableInstance extends BaseInstance implements Copyable<DataV
 		res.numberOfUsages = this.numberOfUsages;
 		return res;
 	}
-
+	
 }
