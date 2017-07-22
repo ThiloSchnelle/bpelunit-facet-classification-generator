@@ -4,10 +4,10 @@
 		<tes:send fault="false">
 			<tes:data>
 				<tns:approveLoanResponse>
+					<tns:customerID><csg:variableSlot name="ConsistedCustomer" /></tns:customerID>
 					<tns:granted>
 						<csg:variableSlot name="IsContractGranted" />
 					</tns:granted>
-					<tns:customerID><csg:variableSlot name="ConsistedCustomer" /></tns:customerID>
 				</tns:approveLoanResponse>
 			</tes:data>
 		</tes:send>

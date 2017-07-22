@@ -4,13 +4,13 @@
     <tes:baseURL>http://localhost:7777/ws</tes:baseURL>
     <tes:deployment>
         <tes:put type="fixed" name="OnlineShop">
-            <tes:wsdl>../OnlineShopProjectProcess/bpelContent/OnlineShopArtifacts.wsdl</tes:wsdl>
+            <tes:wsdl>OnlineShop.wsdl</tes:wsdl>
         </tes:put>
-        <tes:partner name="Accounting" wsdl="../OnlineShopProjectProcess/bpelContent/OnlineShop.wsdl" partnerWsdl=""/>
-        <tes:partner name="FreightCompany" wsdl="../OnlineShopProjectProcess/bpelContent/OnlineShop.wsdl" partnerWsdl=""/>
-		<tes:partner name="ClientPort" wsdl="../OnlineShopProjectProcess/bpelContent/OnlineShop.wsdl" partnerWsdl=""/>
-		<tes:partner name="Warehouse" wsdl="../OnlineShopProjectProcess/bpelContent/OnlineShop.wsdl" partnerWsdl=""/>
-		<tes:partner name="WarehouseShippingPort" wsdl="../OnlineShopProjectProcess/bpelContent/OnlineShop.wsdl" partnerWsdl=""/>
+        <tes:partner name="Accounting" wsdl="OnlineShop.wsdl" partnerWsdl=""/>
+        <tes:partner name="FreightCompany" wsdl="OnlineShop.wsdl" partnerWsdl=""/>
+		<tes:partner name="ClientPort" wsdl="OnlineShop.wsdl" partnerWsdl=""/>
+		<tes:partner name="Warehouse" wsdl="OnlineShop.wsdl" partnerWsdl=""/>
+		<tes:partner name="WarehouseShippingPort" wsdl="OnlineShop.wsdl" partnerWsdl=""/>
     </tes:deployment>
     <tes:testCases>
 
