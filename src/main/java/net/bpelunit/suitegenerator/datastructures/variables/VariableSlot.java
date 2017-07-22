@@ -3,23 +3,27 @@ package net.bpelunit.suitegenerator.datastructures.variables;
 import org.jdom2.Element;
 
 /**
- * Encapsulates a SlotName with the Element where the belonging data can be attached.
+ * Encapsulates a SlotName with the Element where the belonging data can be inserted.
  *
  */
 public class VariableSlot {
 
-	private Element parent;
+	private Element variableElement;
 	private String name;
 
-	public VariableSlot(Element parent, String name) {
-		this.parent = parent;
+	public VariableSlot(Element variableElement, String name) {
+		this.variableElement = variableElement;
 		this.name = name;
 	}
 
 	public Element getParent() {
-		return parent;
+		return variableElement.getParentElement();
 	}
 
+	public Element getElement() {
+		return variableElement;
+	}
+	
 	public String getName() {
 		return name;
 	}

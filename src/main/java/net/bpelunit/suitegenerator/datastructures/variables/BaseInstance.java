@@ -39,6 +39,20 @@ public abstract class BaseInstance extends BaseVariable implements IVariableInst
 	}
 
 	@Override
+	public void replaceWithVariable(VariableSlot vs) {
+		Element parent = vs.getParent();
+		int indexOfSlot = parent.indexOf(vs.getElement());
+		
+		for (Element child : content.getChildren()) {
+			parent.addContent(indexOfSlot, child.clone());
+			indexOfSlot++;
+		}
+		
+		parent.removeContent(vs.getElement());
+		countUsage();
+	}
+	
+	@Override
 	public void countUsage() {
 		numberOfUsages++;
 	}

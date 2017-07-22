@@ -1,13 +1,17 @@
 package net.bpelunit.suitegenerator.suitebuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
 import org.jdom2.Element;
 import org.jdom2.Namespace;
+import org.jdom2.filter.ElementFilter;
+import org.jdom2.util.IteratorIterable;
 
 import net.bpelunit.suitegenerator.config.Config;
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariableSelection;
@@ -62,6 +66,22 @@ public class TestCaseBuilder implements SlotVisitor {
 		}
 		insertVarInstances();
 		attachPartnerTracks();
+		
+		removeUnusedGeneratorTags();
+	}
+
+	private void removeUnusedGeneratorTags() {
+		ElementFilter filter = new ElementFilter(Config.get().getGeneratorSpace());
+		IteratorIterable<Element> remainingGeneratorElements = testCaseElement.getDescendants(filter);
+		List<Element> myCopy = new ArrayList<>(); // in order to avoid ConcurrentModificationException
+		
+		for(Element e : remainingGeneratorElements) {
+			myCopy.add(e);
+		}
+		
+		for(Element e : myCopy) {
+			e.detach();
+		}
 	}
 
 	/*
@@ -73,8 +93,11 @@ public class TestCaseBuilder implements SlotVisitor {
 		/*
 		 * if (chosenSel.hasParent()) { for (Mapping parent : chosenSel.getParentMappings()) { useSelections(parent); } }
 		 */
-		for (VariableMapping sel : chosenSel.getMappings()) {
-			sel.accept(this); // <-- Visitorpattern: sel.accept calls the correct method of TestCaseBuilder for the concrete Type
+		if(chosenSel != null) {
+			for (VariableMapping sel : chosenSel.getMappings()) {
+				sel.accept(this); // <-- Visitorpattern: sel.accept calls the correct method of TestCaseBuilder for the concrete Type
+				System.out.println("| " + sel.getInstanceName() + " -> " + sel.getSlotName());
+			}
 		}
 	}
 
