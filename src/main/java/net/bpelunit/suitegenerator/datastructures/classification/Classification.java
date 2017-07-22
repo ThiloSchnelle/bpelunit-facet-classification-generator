@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.bpelunit.suitegenerator.datastructures.conditions.ICondition;
 import net.bpelunit.suitegenerator.datastructures.testcases.TestCase;
-import net.bpelunit.suitegenerator.recommendation.permut.ICondition;
 
 public class Classification {
 

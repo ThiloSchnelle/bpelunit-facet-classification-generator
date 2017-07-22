@@ -1,18 +1,18 @@
-package net.bpelunit.suitegenerator.recommendation.permut;
+package net.bpelunit.suitegenerator.datastructures.conditions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class OR implements ICondition {
+public class XOR implements ICondition {
 
 	private ICondition first, second;
 
-	public OR(ICondition first, ICondition second) {
+	public XOR(ICondition first, ICondition second) {
 		this.first = first;
 		this.second = second;
 	}
 
-	public OR() {
+	public XOR() {
 
 	}
 
@@ -26,15 +26,15 @@ public class OR implements ICondition {
 	}
 
 	/**
-	 * Returns true if either of the contained conditions holds for the given Operands
+	 * Returns true if exactly one of the contained conditions holds for the given Operands
 	 */
 	@Override
 	public boolean evaluate(List<? extends IOperand> ops) {
-		return first.evaluate(ops) || second.evaluate(ops);
+		return first.evaluate(ops) ^ second.evaluate(ops);
 	}
 
 	/**
-	 * Returns true if either of the contained conditions holds for the given Operands
+	 * Returns true if exactly one of the contained conditions holds for the given Operands
 	 */
 	@Override
 	public boolean evaluate(List<? extends IOperand> ops, IOperand additional) {
@@ -44,7 +44,7 @@ public class OR implements ICondition {
 	}
 
 	/**
-	 * Returns true if either of the contained conditions holds for the given Operands
+	 * Returns true if exactly one of the contained conditions holds for the given Operands
 	 */
 	@Override
 	public boolean evaluate(IOperand... ops) {
@@ -58,9 +58,9 @@ public class OR implements ICondition {
 	@Override
 	public String toString() {
 		if (first == null || second == null) {
-			return "OR";
+			return "XOR";
 		}
-		return "(" + first + " || " + second + ")";
+		return "(" + first + " ^ " + second + ")";
 	}
 
 }

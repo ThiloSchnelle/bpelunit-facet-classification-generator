@@ -8,10 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.bpelunit.suitegenerator.datastructures.classification.Classification;
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariable;
-import net.bpelunit.suitegenerator.datastructures.variables.VariableLibrary;
-import net.bpelunit.suitegenerator.statistics.IStatistics;
 import net.bpelunit.suitegenerator.statistics.Selection;
 import net.bpelunit.suitegenerator.util.Copy;
 
@@ -23,8 +20,7 @@ public class SimpleRecommender extends Recommender {
 	private Collection<Selection> allSelections;
 	private Map<ClassificationVariable, List<Selection>> roots;
 
-	public SimpleRecommender(IStatistics statistic, VariableLibrary variables, Classification classification) {
-		super(statistic, variables, classification);
+	public SimpleRecommender() {
 	}
 
 	@Override

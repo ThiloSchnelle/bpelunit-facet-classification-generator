@@ -8,12 +8,9 @@ import java.util.Map;
 import java.util.Set;
 
 import net.bpelunit.suitegenerator.config.Config;
-import net.bpelunit.suitegenerator.datastructures.classification.Classification;
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariable;
 import net.bpelunit.suitegenerator.datastructures.variables.DataVariableInstance;
 import net.bpelunit.suitegenerator.datastructures.variables.Mapping;
-import net.bpelunit.suitegenerator.datastructures.variables.VariableLibrary;
-import net.bpelunit.suitegenerator.statistics.IStatistics;
 import net.bpelunit.suitegenerator.statistics.Selection;
 import net.bpelunit.suitegenerator.util.Copy;
 
@@ -23,9 +20,7 @@ public class VarInstanceBasedRecommender extends Recommender {
 	private Map<ClassificationVariable, List<Selection>> roots;
 	private Set<DataVariableInstance> unusedData;
 
-	public VarInstanceBasedRecommender(IStatistics statistic, VariableLibrary variables,
-			Classification classification) {
-		super(statistic, variables, classification);
+	public VarInstanceBasedRecommender() {
 	}
 
 	@Override

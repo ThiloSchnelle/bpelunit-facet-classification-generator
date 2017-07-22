@@ -7,13 +7,13 @@ import java.util.Map;
 
 import net.bpelunit.suitegenerator.datastructures.classification.Classification;
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariable;
+import net.bpelunit.suitegenerator.datastructures.conditions.ICondition;
 import net.bpelunit.suitegenerator.datastructures.variables.VariableLibrary;
-import net.bpelunit.suitegenerator.recommendation.permut.ICondition;
 import net.bpelunit.suitegenerator.statistics.IStatistics;
 import net.bpelunit.suitegenerator.statistics.Selection;
 import net.bpelunit.suitegenerator.util.Copy;
 
-public class Recommender {
+public abstract class Recommender implements IRecommender {
 
 	protected IStatistics statistic;
 	protected VariableLibrary variables;
@@ -22,17 +22,14 @@ public class Recommender {
 
 	protected List<Recommendation> recommendations = null;
 
-	public Recommender(IStatistics statistic, VariableLibrary variables, Classification classification) {
-		this.statistic = statistic;
-		this.variables = variables;
-		this.classification = classification;
-		this.forbidden = classification.getForbidden();
+	public Recommender() {
 	}
 
 	protected void createRecommendations() {
 		recommendations = new LinkedList<>();
 	}
 
+	@Override
 	public List<Recommendation> getRecommendations() {
 		if (recommendations == null) {
 			createRecommendations();
@@ -58,6 +55,14 @@ public class Recommender {
 			}
 		}
 		return least;
+	}
+
+	@Override
+	public void setClassificationData(IStatistics stat, VariableLibrary variables, Classification classification) {
+		this.statistic = stat;
+		this.variables = variables;
+		this.classification = classification;
+		this.forbidden = classification.getForbidden();
 	}
 
 }
