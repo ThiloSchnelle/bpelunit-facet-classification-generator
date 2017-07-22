@@ -3,25 +3,18 @@
 	
 	<csg:mapping name="BaseSelection">
 		<csg:useMessageExchange messageName="Order" messageSlot="ClientRequest"/>
-		<csg:useMessageExchange messageName="WarehouseAvailability" messageSlot="WarehouseAvailability">
-		</csg:useMessageExchange>
+		<csg:useMessageExchange messageName="WarehouseAvailability" messageSlot="WarehouseAvailability" />
 	</csg:mapping>
 	
 	<csg:mapping name="Ware verfügbar?:Ware nicht verfügbar">
 		<csg:extends>BaseSelection</csg:extends>
-		<csg:useMessageExchange messageName="NotAvailable" messageSlot="OrderAvailable">
-		</csg:useMessageExchange>
-		<csg:variable>
-			<csg:variableName>ProdukteVerfügbar</csg:variableName>
-			<csg:instance>Nicht verfügbar</csg:instance>
-		</csg:variable>
+		<csg:useMessageExchange messageName="NotAvailable" messageSlot="OrderAvailable" />
+		<csg:useVariable variableName="ProdukteVerfügbar" variableInstance="Nicht verfügbar" />
 	</csg:mapping>
 	
 	<csg:mapping name="Ware verfügbar?:Versand möglich?">
 		<csg:extends>BaseSelection</csg:extends>
-		<csg:variable name="ProdukteVerfügbar">
-			<csg:instance>Verfügbar</csg:instance>
-		</csg:variable>
+		<csg:useVariable variableName="ProdukteVerfügbar" variableInstance="Verfügbar" />
 		<csg:useMessageExchange messageName="ConfirmOrder" messageSlot="OrderAvailable" />
 		<csg:useMessageExchange messageName="FreightCompanyRequest" messageSlot="FreightCompanyRequest" />
 	</csg:mapping>
@@ -31,81 +24,46 @@
 		<csg:useMessageExchange messageName="ShippingSucceeded" messageSlot="OrderShipping" />
 		<csg:useMessageExchange messageName="WarehouseShipping" messageSlot="WarehouseShippingRequest" />
 		<csg:useMessageExchange messageName="AccountingRequest" messageSlot="AccountingRequest" />
-		<csg:variable name="Versanderfolg">
-			<csg:instance>Ja</csg:instance>
-		</csg:variable>
+		<csg:useVariable variableName="Versanderfolg" variableInstance="Ja" />
 	</csg:mapping>
 	
 	<csg:mapping name="Ware verfügbar?:Versand möglich?:Versandfehler">
 		<csg:extends>Ware verfügbar?:Versand möglich?</csg:extends>
 		<csg:useMessageExchange messageName="FreightError" messageSlot="OrderShipping" />
-		<csg:variable name="Versanderfolg">
-			<csg:instance>Nein</csg:instance>
-		</csg:variable>
+		<csg:useVariable variableName="Versanderfolg" variableInstance="Nein" />
 	</csg:mapping>
 	
 	<csg:mapping name="Einkaufsgröße:Großbrief">
-		<csg:variable name="ProduktListeInhalt">
-			<csg:instance>Großbrief</csg:instance>
-		</csg:variable>
-		<csg:variable name="ProduktIDListe">
-			<csg:instance>Großbrief</csg:instance>
-		</csg:variable>
-		<csg:variable name="Gesamtpreis">
-			<csg:instance>Großbrief</csg:instance>
-		</csg:variable>
+		<csg:useVariable variableName="ProduktListeInhalt" variableInstance="Großbrief" />
+		<csg:useVariable variableName="ProduktIDListe" variableInstance="Großbrief" />
+		<csg:useVariable variableName="Gesamtpreis" variableInstance="Großbrief" />
 	</csg:mapping>
 	
 	<csg:mapping name="Einkaufsgröße:Normales Paket">
-		<csg:variable name="ProduktListeInhalt">
-			<csg:instance>Normales Paket</csg:instance>
-		</csg:variable>
-		<csg:variable name="ProduktIDListe">
-			<csg:instance>Normales Paket</csg:instance>
-		</csg:variable>
-		<csg:variable name="Gesamtpreis">
-			<csg:variableName></csg:variableName>
-			<csg:instance>Normales Paket</csg:instance>
-		</csg:variable>
+		<csg:useVariable variableName="ProduktListeInhalt" variableInstance="Normales Paket" />
+		<csg:useVariable variableName="ProduktIDListe" variableInstance="Normales Paket" />
+		<csg:useVariable variableName="Gesamtpreis" variableInstance="Normales Paket" />
 	</csg:mapping>
 	
 	<csg:mapping name="Einkaufsgröße:Sperrgut">
-		<csg:variable name="ProduktListeInhalt">
-			<csg:instance>Sperrgut</csg:instance>
-		</csg:variable>
-		<csg:variable name="ProduktIDListe">
-			<csg:instance>Sperrgut</csg:instance>
-		</csg:variable>
-		<csg:variable name="Gesamtpreis">
-			<csg:instance>Sperrgut</csg:instance>
-		</csg:variable>
+		<csg:useVariable variableName="ProduktListeInhalt" variableInstance="Sperrgut" />
+		<csg:useVariable variableName="ProduktIDListe" variableInstance="Sperrgut" />
+		<csg:useVariable variableName="Gesamtpreis" variableInstance="Sperrgut" />
 	</csg:mapping>
 	
 	<csg:mapping name="Zahlungsmethode:PayPal">
-		<csg:variable name="Zahlungsmethode">
-			<csg:instance>PayPal</csg:instance>
-		</csg:variable>
-		<csg:variable name="ZahlungsmethodeZusatzkosten">
-			<csg:instance>PayPal</csg:instance>
-		</csg:variable>
+		<csg:useVariable variableName="Zahlungsmethode" variableInstance="PayPal" />
+		<csg:useVariable variableName="ZahlungsmethodeZusatzkosten" variableInstance="PayPal" />
 	</csg:mapping>
 	
 	<csg:mapping name="Zahlungsmethode:EC">
-		<csg:variable name="Zahlungsmethode">
-			<csg:variableName></csg:variableName>
-		</csg:variable>
-		<csg:variable name="ZahlungsmethodeZusatzkosten">
-			<csg:instance>EC</csg:instance>
-		</csg:variable>
+		<csg:useVariable variableName="Zahlungsmethode" variableInstance="EC" />
+		<csg:useVariable variableName="ZahlungsmethodeZusatzkosten" variableInstance="EC" />
 	</csg:mapping>
 	
 	<csg:mapping name="Zahlungsmethode:Überweisung">
-		<csg:variable name="Zahlungsmethode">
-			<csg:instance>Überweisung</csg:instance>
-		</csg:variable>
-		<csg:variable name="ZahlungsmethodeZusatzkosten">
-			<csg:instance>Überweisung</csg:instance>
-		</csg:variable>
+		<csg:useVariable variableName="Zahlungsmethode" variableInstance="Überweisung" />
+		<csg:useVariable variableName="ZahlungsmethodeZusatzkosten" variableInstance="Überweisung" />
 	</csg:mapping>
 	
 </csg:mappings>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="www.example.org/OnlineShopSchema/" xmlns="www.example.org/OnlineShopSchema/" elementFormDefault="qualified">
+
+	<!--
+		ORDER
+	-->
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="street" type="xs:string" />
+			<xs:element name="houseNumber" type="xs:string" />
+			<xs:element name="postalCode" type="xs:integer" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CustomerInformation">
+		<xs:sequence>
+			<xs:element name="firstName" type="xs:string" />
+			<xs:element name="lastName" type="xs:string" />
+			<xs:element name="address" type="Address" />
+			<xs:element name="email" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+
+		<xs:simpleType name="PaymentMethod">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PayPal"></xs:enumeration>
+			<xs:enumeration value="EC"></xs:enumeration>
+			<xs:enumeration value="BankTransfer"></xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="ProductIDList">
+		<xs:sequence>
+			<xs:element name="productID" type="xs:integer" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="Order">
+		<xs:sequence>
+			<xs:element name="customerInformation" type="CustomerInformation" />
+			<xs:element name="paymentMethod" type="PaymentMethod" />
+			<xs:element name="productIDList" type="ProductIDList" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:element name="order" type="Order" />
+	
+	<!--
+		WAREHOUSE
+	-->
+	
+	<xs:complexType name="WarehouseRequest">
+		<xs:sequence>
+			<xs:element name="orderID" type="xs:integer" />
+			<xs:element name="productIDList" type="ProductIDList" />
+		</xs:sequence>
+	</xs:complexType>
+		
+	<xs:element name="warehouseRequest" type="WarehouseRequest" />
+	
+	<xs:complexType name="Product">
+		<xs:sequence>
+			<xs:element name="id" type="xs:integer" />
+			<xs:element name="name" type="xs:string" />
+			<xs:element name="priceInEur" type="xs:float" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="Products">
+		<xs:sequence>
+			<xs:element name="product" type="Product" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="WarehouseResponse">
+		<xs:sequence>
+			<xs:element name="totalPriceEur" type="xs:float" />
+			<xs:element name="weightInKG" type="xs:float" />
+			<xs:element name="widthInMeters" type="xs:float" />
+			<xs:element name="heightInMeters" type="xs:float" />
+			<xs:element name="depthInMeters" type="xs:float" />
+			<xs:element name="available" type="xs:boolean" />
+			<xs:element name="products" type="Products" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="warehouseResponse" type="WarehouseResponse" />
+	
+	<xs:element name="warehouseShippingRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="orderID" type="xs:integer" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="warehouseShippingResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="orderID" type="xs:integer" />
+				<xs:element name="successfullyShipped" type="xs:boolean" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<!-- 
+		Messages to user
+	-->
+	
+	<xs:element name="notAvailableMsg" type="xs:string" />
+	
+	<xs:element name="freightError" type="xs:string" />
+	
+	<xs:complexType name="OrderConfirmation">
+		<xs:sequence>
+			<xs:element name="totalPriceEur" type="xs:float" />
+			<xs:element name="paymentSurcharge" type="xs:float" />
+			<xs:element name="products" type="Products"  />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="orderConfirmation" type="OrderConfirmation" />
+	
+	<xs:complexType name="ShippingSucceeded">
+		<xs:sequence>
+			<xs:element name="pdfLocation" type="xs:string" />
+			<xs:element name="message" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="shippingSucceeded" type="ShippingSucceeded" />
+	
+	<!-- 
+		FreightCompany
+	-->
+	
+	<xs:complexType name="FreightCompanyRequest">
+		<xs:sequence>
+			<xs:element name="weightInKG" type="xs:float" />
+			<xs:element name="widthInMeters" type="xs:float" />
+			<xs:element name="heightInMeters" type="xs:float" />
+			<xs:element name="depthInMeters" type="xs:float" />
+			<xs:element name="address" type="Address" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="freightCompanyRequest" type="FreightCompanyRequest" />
+	
+	<xs:complexType name="FreightCompanyResponse">
+		<xs:sequence>
+			<xs:element name="possible" type="xs:boolean" />
+			<xs:element name="priceInEur" type="xs:float" />
+			<xs:element name="pdfLocation" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="freightCompanyResponse" type="FreightCompanyResponse" />
+	
+	<!--
+		Accounting	
+	-->
+	
+	<xs:complexType name="AccountingRequest">
+		<xs:sequence>
+			<xs:element name="orderID" type="xs:integer" />
+			<xs:element name="shippingPriceEur" type="xs:float" />
+			<xs:element name="products" type="Products" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="accountingRequest" type="AccountingRequest" />
+	
+	<xs:complexType name="AccountingResponse">
+		<xs:sequence>
+			<xs:element name="pdfLocation" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:element name="accountingResponse" type="AccountingResponse" />
+	
+</xs:schema>

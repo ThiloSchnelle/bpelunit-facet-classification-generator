@@ -4,14 +4,14 @@
     <tes:baseURL>http://localhost:7777/ws</tes:baseURL>
     <tes:deployment>
         <tes:put type="fixed" name="LoanProcess">
-            <tes:wsdl>../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl</tes:wsdl>
+            <tes:wsdl>LoanProcessArtifacts.wsdl</tes:wsdl>
         </tes:put>
-        <tes:partner name="PoliceInterface" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
-        <tes:partner name="ApprovalService" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
-        <tes:partner name="ClientService" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
-    	<tes:partner name="CreditAgencyInquiryPort" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
-    	<tes:partner name="TransactionConfirmationPort" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
-    	<tes:partner name="OrderMoneyPort" wsdl="../LoanProcessExample/loanProcess/LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+        <tes:partner name="PoliceInterface" wsdl="LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+        <tes:partner name="ApprovalService" wsdl="LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+        <tes:partner name="ClientService" wsdl="LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+    	<tes:partner name="CreditAgencyInquiryPort" wsdl="LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+    	<tes:partner name="TransactionConfirmationPort" wsdl="LoanProcessArtifacts.wsdl" partnerWsdl=""/>
+    	<tes:partner name="OrderMoneyPort" wsdl="LoanProcessArtifacts.wsdl" partnerWsdl=""/>
     </tes:deployment>
     <tes:testCases>
 
