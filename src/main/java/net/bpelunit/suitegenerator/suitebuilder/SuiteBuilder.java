@@ -5,7 +5,10 @@ import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import org.jdom2.Element;
 import org.jdom2.Namespace;
@@ -74,15 +77,14 @@ public class SuiteBuilder {
 	public void addRecommendations(Recommender recommender) {
 		int num = 1;
 		for (Recommendation r : recommender.getRecommendations()) {
-			StringBuilder testCaseName = new StringBuilder();
-			testCaseName.append("Recommended_TC" + num++);
+			List<String> classificationNames = new ArrayList<>();
 			for (ClassificationVariableSelection cvs : r.getRecommendedSelections()) {
-				testCaseName.append("|");
-				testCaseName.append(cvs.getCompleteName());
+				classificationNames.add(cvs.getCompleteName());
 			}
+			Collections.sort(classificationNames);
+			String testCaseName = "Recommended_TC" + (num++) + ":" + String.join("|", classificationNames.toArray(new String[0]));
 			
-			TestCase t = new TestCase(testCaseName.toString());
-//			TestCase t = new TestCase("Recommended " + num++);
+			TestCase t = new TestCase(testCaseName);
 			for (ClassificationVariableSelection cvs : r.getRecommendedSelections()) {
 				t.markAsNecessary(cvs);
 			}
