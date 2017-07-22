@@ -31,7 +31,7 @@ public class Generator {
 		Config.get().out().printClassificationTree(tree);
 	}
 
-	public void generate(File folder, boolean createRecommendations, boolean createNewTestCases) {
+	public void generate(File folder, boolean createRecommendations, boolean createNewTestCases, String suiteFileName) {
 		SuiteBuilder sb = new SuiteBuilder();
 		sb.buildSuite(fragmentReader.getSkeletalStructure(), classificationReader.getClassification(), folder,
 				fragmentReader);
@@ -54,6 +54,8 @@ public class Generator {
 				sb.addRecommendations(r);
 			}
 		}
+		
+		sb.saveSuite(suiteFileName);
 	}
 
 	public IStatistics getStatistics() {

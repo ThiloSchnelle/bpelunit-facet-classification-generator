@@ -10,7 +10,6 @@ import java.util.Collection;
 import org.jdom2.Element;
 import org.jdom2.Namespace;
 
-import net.bpelunit.suitegenerator.config.Config;
 import net.bpelunit.suitegenerator.datastructures.classification.Classification;
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariableSelection;
 import net.bpelunit.suitegenerator.datastructures.testcases.TestCase;
@@ -42,9 +41,9 @@ public class SuiteBuilder {
 		data = fragment.getVariables();
 		this.destFolder = destFolder;
 		for (TestCase t : testCases) {
+			System.out.println("Test Case " + t.getName() + ":");
 			attachNewTestCase(t, testCaseElement, tes, data);
 		}
-		writeDocument(root, new File(destFolder, Config.get().getOutputName()));
 	}
 
 	private void attachNewTestCase(TestCase t, Element testCaseElement, Namespace tes, VariableLibrary data) {
@@ -75,13 +74,24 @@ public class SuiteBuilder {
 	public void addRecommendations(Recommender recommender) {
 		int num = 1;
 		for (Recommendation r : recommender.getRecommendations()) {
-			TestCase t = new TestCase("Recommended " + num++);
+			StringBuilder testCaseName = new StringBuilder();
+			testCaseName.append("Recommended_TC" + num++);
+			for (ClassificationVariableSelection cvs : r.getRecommendedSelections()) {
+				testCaseName.append("|");
+				testCaseName.append(cvs.getCompleteName());
+			}
+			
+			TestCase t = new TestCase(testCaseName.toString());
+//			TestCase t = new TestCase("Recommended " + num++);
 			for (ClassificationVariableSelection cvs : r.getRecommendedSelections()) {
 				t.markAsNecessary(cvs);
 			}
 			attachNewTestCase(t, testCaseElement, tes, data);
 		}
-		writeDocument(root, new File(destFolder, Config.get().getOutputName()));
+	}
+
+	public void saveSuite(String suiteFileName) {
+		writeDocument(root, new File(destFolder, suiteFileName));
 	}
 
 }
