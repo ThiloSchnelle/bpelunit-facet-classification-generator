@@ -39,19 +39,25 @@ public abstract class BaseInstance extends BaseVariable implements IVariableInst
 	}
 
 	@Override
-	public void replaceWithVariable(VariableSlot vs) {
+	public IInsertedInstance replaceWithVariable(VariableSlot vs) {
 		Element parent = vs.getParent();
 		int indexOfSlot = parent.indexOf(vs.getElement());
-		
-		for (Element child : content.getChildren()) {
-			parent.addContent(indexOfSlot, child.clone());
-			indexOfSlot++;
+		if (content.getChildren().size() > 0) {
+			for (Element child : content.getChildren()) {
+				parent.addContent(indexOfSlot, child.clone());
+				indexOfSlot++;
+			}
+		} else {
+			if (!content.getText().trim().isEmpty()) {
+				parent.addContent(content.getText().trim());
+			}
 		}
-		
+
 		parent.removeContent(vs.getElement());
 		countUsage();
+		return new InsertedInstance(this.name, parent);
 	}
-	
+
 	@Override
 	public void countUsage() {
 		numberOfUsages++;
@@ -69,7 +75,8 @@ public abstract class BaseInstance extends BaseVariable implements IVariableInst
 
 	@Override
 	public String toString() {
-		return "Instance [" + instanceName + "] for complex var [" + getVariableName() + "] containing {" + XMLElementOutput.out(content) + "}";
+		return "Instance [" + instanceName + "] for complex var [" + getVariableName() + "] containing {"
+				+ XMLElementOutput.out(content) + "}";
 	}
 
 }
