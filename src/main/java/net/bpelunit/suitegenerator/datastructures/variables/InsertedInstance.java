@@ -11,17 +11,16 @@ import org.jdom2.filter.ElementFilter;
 
 import net.bpelunit.suitegenerator.config.Config;
 
-/**
- * MessageExchanges that can receive VariableInstances to replace variable-tags
- *
+/***
+ * After an instance has been inserted into a any variable slot, it might still contain variableSlots itself These slots need to be filled. Therefore the
+ * inserted XML is saved in such an instance and can be searched for new slots
  */
-public class MessageExchangeInstance extends BaseInstance {
+public class InsertedInstance extends BaseVariable implements IInsertedInstance {
 
 	private Map<String, List<VariableSlot>> slots = new HashMap<>();
 
-	MessageExchangeInstance(String name, Element content) {
-		super(name, "No need for an instanceName for MessageExchanges", content);
-		parseContent(content);
+	public InsertedInstance(String name, Element content) {
+		super("Inserted Instance of: " + name, content);
 	}
 
 	private void parseContent(Element content) {
@@ -52,14 +51,18 @@ public class MessageExchangeInstance extends BaseInstance {
 		slotList.add(variableSlot);
 	}
 
+	@Override
 	public void insertVariables(Map<String, IVariableInstance> instanceForVarName) {
-		for (String slotName : instanceForVarName.keySet()) {
-			List<VariableSlot> slotList = slots.get(slotName);
-			if (slotList != null) {
-				IVariableInstance inst = instanceForVarName.get(slotName);
-				for (VariableSlot vs : slotList) {
-					IInsertedInstance ii = inst.replaceWithVariable(vs);
-					ii.insertVariables(instanceForVarName);
+		parseContent(content);
+		if (slots.size() != 0) {
+			for (String slotName : instanceForVarName.keySet()) {
+				List<VariableSlot> slotList = slots.get(slotName);
+				if (slotList != null) {
+					IVariableInstance inst = instanceForVarName.get(slotName);
+					for (VariableSlot vs : slotList) {
+						IInsertedInstance ii = inst.replaceWithVariable(vs);
+						ii.insertVariables(instanceForVarName);
+					}
 				}
 			}
 		}
@@ -73,5 +76,4 @@ public class MessageExchangeInstance extends BaseInstance {
 		List<VariableSlot> slotList = slots.get(slotName);
 		return slotList != null ? slotList.size() : 0;
 	}
-
 }
