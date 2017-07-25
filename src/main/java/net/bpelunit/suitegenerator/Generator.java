@@ -47,7 +47,7 @@ public class Generator {
 		}
 		if (recommender != null) {
 			recommender.setClassificationData(stat, fragmentReader.getVariables(), classificationReader.getClassification());
-			Config.get().out().printRecommendation(recommender.getRecommendations());
+//			Config.get().out().printRecommendation(recommender.getRecommendations());
 			if (createNewTestCases) {
 				sb.addRecommendations(recommender);
 			}

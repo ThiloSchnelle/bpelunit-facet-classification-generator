@@ -83,7 +83,7 @@ public class XLSReader implements IClassificationReader {
 			}
 			ICondition cond = new ConditionParser().parse(c.toString());
 			conditions.addCondition(cond);
-			System.out.println(cond);
+//			System.out.println(cond);
 		}
 		return i;
 	}

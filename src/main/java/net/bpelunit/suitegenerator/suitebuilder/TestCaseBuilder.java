@@ -96,7 +96,7 @@ public class TestCaseBuilder implements SlotVisitor {
 		if(chosenSel != null) {
 			for (VariableMapping sel : chosenSel.getMappings()) {
 				sel.accept(this); // <-- Visitorpattern: sel.accept calls the correct method of TestCaseBuilder for the concrete Type
-				System.out.println("| " + sel.getInstanceName() + " -> " + sel.getSlotName());
+//				System.out.println("| " + sel.getInstanceName() + " -> " + sel.getSlotName());
 			}
 		}
 	}

@@ -41,6 +41,9 @@ public abstract class BaseInstance extends BaseVariable implements IVariableInst
 	@Override
 	public IInsertedInstance replaceWithVariable(VariableSlot vs) {
 		Element parent = vs.getParent();
+		if(parent == null) {
+			return null;
+		}
 		int indexOfSlot = parent.indexOf(vs.getElement());
 		if (content.getChildren().size() > 0) {
 			for (Element child : content.getChildren()) {

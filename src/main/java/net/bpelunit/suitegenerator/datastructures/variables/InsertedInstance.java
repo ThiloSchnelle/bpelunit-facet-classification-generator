@@ -24,20 +24,16 @@ public class InsertedInstance extends BaseVariable implements IInsertedInstance 
 	}
 
 	private void parseContent(Element content) {
-		List<Element> toDetach = new LinkedList<>();
 		for (Element var : content.getDescendants(new ElementFilter(Config.get().getVariableSlotTag()))) {
 			Attribute nameAtt = var.getAttribute("name");
-			if (nameAtt == null || nameAtt.getValue().isEmpty()) {
+			if (nameAtt == null || nameAtt.getValue() == null || nameAtt.getValue().isEmpty()) {
 				Config.get().out().varSlotWithoutName(this.name);
 				continue;
 			}
 			String name = nameAtt.getValue();
-			if (name != null && !name.isEmpty()) {
-				Element parent = var.getParentElement();
-				if (parent != null) {
-					toDetach.add(var);
-					addSlot(new VariableSlot(var, name));
-				}
+			Element parent = var.getParentElement();
+			if (parent != null) {
+				addSlot(new VariableSlot(var, name));
 			}
 		}
 	}
@@ -61,7 +57,8 @@ public class InsertedInstance extends BaseVariable implements IInsertedInstance 
 					IVariableInstance inst = instanceForVarName.get(slotName);
 					for (VariableSlot vs : slotList) {
 						IInsertedInstance ii = inst.replaceWithVariable(vs);
-						ii.insertVariables(instanceForVarName);
+						if(ii != null)
+							ii.insertVariables(instanceForVarName);
 					}
 				}
 			}

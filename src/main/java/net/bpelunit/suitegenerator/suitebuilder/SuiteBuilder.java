@@ -24,28 +24,24 @@ import net.bpelunit.suitegenerator.util.XMLElementOutput;
 
 public class SuiteBuilder {
 
-	Element root;
-	Element testCaseElement;
-	Namespace tes;
-	VariableLibrary data;
-	File destFolder;
+	private Element currentRoot;
+	private Element currentTestCasesElement;
+	private Namespace nsBPELUnit;
+	private VariableLibrary data;
+	private File destFolder;
 
-	public void buildSuite(Element baseFile, Classification classification, File destFolder,
-			ICodeFragmentReader fragment) {
+	public void buildSuite(Element baseFile, Classification classification, File destFolder, ICodeFragmentReader fragment) {
 
 		Collection<TestCase> testCases = classification.getTestCases();
 
-		// Permutation p = new Permutation(tree);
-		// System.out.println(p.getNumPermutations());
-
-		root = baseFile.clone();
-		testCaseElement = root.getChild("testCases", root.getNamespace());
-		tes = root.getNamespace();
+		currentRoot = baseFile.clone();
+		currentTestCasesElement = currentRoot.getChild("testCases", currentRoot.getNamespace());
+		nsBPELUnit = currentRoot.getNamespace();
 		data = fragment.getVariables();
 		this.destFolder = destFolder;
 		for (TestCase t : testCases) {
-			System.out.println("Test Case " + t.getName() + ":");
-			attachNewTestCase(t, testCaseElement, tes, data);
+//			System.out.println("Test Case " + t.getName() + ":");
+			attachNewTestCase(t, currentTestCasesElement, nsBPELUnit, data);
 		}
 	}
 
@@ -88,12 +84,12 @@ public class SuiteBuilder {
 			for (ClassificationVariableSelection cvs : r.getRecommendedSelections()) {
 				t.markAsNecessary(cvs);
 			}
-			attachNewTestCase(t, testCaseElement, tes, data);
+			attachNewTestCase(t, currentTestCasesElement, nsBPELUnit, data);
 		}
 	}
 
 	public void saveSuite(String suiteFileName) {
-		writeDocument(root, new File(destFolder, suiteFileName));
+		writeDocument(currentRoot, new File(destFolder, suiteFileName));
 	}
 
 }
