@@ -51,5 +51,13 @@ public class ConditionBundle implements ICondition {
 	public void addCondition(ICondition add) {
 		this.conditions.add(add);
 	}
+	
+	public List<ICondition> getConditions() {
+		return conditions;
+	}
 
+	@Override
+	public String toString() {
+		return conditions.toString();
+	}
 }

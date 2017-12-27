@@ -77,4 +77,14 @@
 		<csg:instance name="LoanNotPaid">false</csg:instance>
 	</csg:variableDefinition>
 	
+	<csg:variableDefinition name="CustomerScore">
+		<csg:instance name="Low">0.5</csg:instance>
+		<csg:instance name="High">0.7</csg:instance>
+	</csg:variableDefinition>
+	
+	<csg:variableDefinition name="MortgageLendingPercentage">
+		<csg:instance name="Low">0.6</csg:instance>
+		<csg:instance name="High">0.9</csg:instance>
+	</csg:variableDefinition>
+	
 </csg:variableDefinitions>

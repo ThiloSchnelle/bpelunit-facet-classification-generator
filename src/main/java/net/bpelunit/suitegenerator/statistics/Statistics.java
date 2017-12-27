@@ -47,9 +47,11 @@ public class Statistics implements IStatistics {
 	}
 
 	private void calcInstancesNotUsed(VariableLibrary variables) {
-		for (DataVariableInstance d : variables.getDataVarInstances()) {
-			if (d.getNumberUsages() == 0) {
-				unusedDataInstances.add(d);
+		if(variables != null) {
+			for (DataVariableInstance d : variables.getDataVarInstances()) {
+				if (d.getNumberUsages() == 0) {
+					unusedDataInstances.add(d);
+				}
 			}
 		}
 	}

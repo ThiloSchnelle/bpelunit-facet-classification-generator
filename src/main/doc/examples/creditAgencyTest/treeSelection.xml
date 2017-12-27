@@ -67,4 +67,20 @@
 		<csg:useVariable variableName="ConsistedCustomer" variableInstance="NotConsisted" />
 		<csg:useVariable variableName="ConsistedCustomerInterest" variableInstance="NotConsistedInterest" />
 	</csg:mapping>
+	
+	<csg:mapping name="KundenScoring:Schlecht">
+		<csg:useVariable variableName="CustomerScore" variableInstance="Low" />
+	</csg:mapping>
+	
+	<csg:mapping name="KundenScoring:Gut">
+		<csg:useVariable variableName="CustomerScore" variableInstance="High" />
+	</csg:mapping>
+	
+	<csg:mapping name="Beleihungsgrad:Niedrig">
+		<csg:useVariable variableName="MortgageLendingPercentage" variableInstance="Low" />
+	</csg:mapping>
+	
+	<csg:mapping name="Beleihungsgrad:Hoch">
+		<csg:useVariable variableName="MortgageLendingPercentage" variableInstance="High" />
+	</csg:mapping>
 </csg:mappings>

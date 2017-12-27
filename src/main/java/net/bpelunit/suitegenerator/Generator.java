@@ -30,10 +30,10 @@ public class Generator {
 		Config.get().out().printClassificationTree(tree);
 	}
 
-	public void generate(File folder, IRecommender recommender, boolean createNewTestCases, String suiteFileName) {
+	public void generate(File folder, IRecommender recommender, boolean createNewTestCases, String suiteFileName, boolean ignoreUserTestCases) {
 		SuiteBuilder sb = new SuiteBuilder();
 		sb.buildSuite(fragmentReader.getSkeletalStructure(), classificationReader.getClassification(), folder,
-				fragmentReader);
+				fragmentReader, ignoreUserTestCases);
 		stat.update(classificationReader.getClassification().getAllClassificationTreeLeaves(),
 				fragmentReader.getVariables());
 		Config.get().out().printStatistics(stat);
@@ -47,9 +47,10 @@ public class Generator {
 		}
 		if (recommender != null) {
 			recommender.setClassificationData(stat, fragmentReader.getVariables(), classificationReader.getClassification());
-//			Config.get().out().printRecommendation(recommender.getRecommendations());
 			if (createNewTestCases) {
 				sb.addRecommendations(recommender);
+			} else {
+				Config.get().out().printRecommendation(recommender.getRecommendations());
 			}
 		}
 		

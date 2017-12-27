@@ -14,12 +14,16 @@ import org.jdom2.Element;
 import org.jdom2.Namespace;
 
 import net.bpelunit.suitegenerator.datastructures.classification.Classification;
+import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariable;
 import net.bpelunit.suitegenerator.datastructures.classification.ClassificationVariableSelection;
+import net.bpelunit.suitegenerator.datastructures.conditions.ConditionBundle;
+import net.bpelunit.suitegenerator.datastructures.conditions.ICondition;
 import net.bpelunit.suitegenerator.datastructures.testcases.TestCase;
 import net.bpelunit.suitegenerator.datastructures.variables.VariableLibrary;
 import net.bpelunit.suitegenerator.reader.ICodeFragmentReader;
 import net.bpelunit.suitegenerator.recommendation.IRecommender;
 import net.bpelunit.suitegenerator.recommendation.Recommendation;
+import net.bpelunit.suitegenerator.statistics.Selection;
 import net.bpelunit.suitegenerator.util.XMLElementOutput;
 
 public class SuiteBuilder {
@@ -30,7 +34,7 @@ public class SuiteBuilder {
 	private VariableLibrary data;
 	private File destFolder;
 
-	public void buildSuite(Element baseFile, Classification classification, File destFolder, ICodeFragmentReader fragment) {
+	public void buildSuite(Element baseFile, Classification classification, File destFolder, ICodeFragmentReader fragment, boolean ignoreUserTestCases) {
 
 		Collection<TestCase> testCases = classification.getTestCases();
 
@@ -39,9 +43,32 @@ public class SuiteBuilder {
 		nsBPELUnit = currentRoot.getNamespace();
 		data = fragment.getVariables();
 		this.destFolder = destFolder;
-		for (TestCase t : testCases) {
-//			System.out.println("Test Case " + t.getName() + ":");
-			attachNewTestCase(t, currentTestCasesElement, nsBPELUnit, data);
+		if(!ignoreUserTestCases) {
+			for (TestCase t : testCases) {
+	//			System.out.println("Test Case " + t.getName() + ":");
+				validateTestCase(t, classification.getForbidden());
+				attachNewTestCase(t, currentTestCasesElement, nsBPELUnit, data);
+			}
+		}
+	}
+
+	private void validateTestCase(TestCase t, ICondition forbidden) {
+		List<Selection> selections = new ArrayList<>(t.getSelections().size());
+		for(ClassificationVariableSelection s : t.getSelections()) {
+			selections.add(new Selection(s));
+		}
+		
+		if(forbidden.evaluate(selections)) {
+			ConditionBundle cb = (ConditionBundle)forbidden;
+			
+			System.err.println("Test Case " + t.getName() + " violates the specified forbidden constraints!!!");
+			System.err.println("- Selection: " + selections);
+			
+			for(ICondition c : cb.getConditions()) {
+				if(c.evaluate(selections)) {
+					System.err.println("- Unsatisfied: " + c.toString());
+				}
+			}
 		}
 	}
 
@@ -78,7 +105,8 @@ public class SuiteBuilder {
 				classificationNames.add(cvs.getCompleteName());
 			}
 			Collections.sort(classificationNames);
-			String testCaseName = "Recommended_TC" + (num++) + ":" + String.join("|", classificationNames.toArray(new String[0]));
+			String testCaseName = "TC" + (num++) + " " + String.join("|", classificationNames.toArray(new String[classificationNames.size()]));
+//			String testCaseName = String.join("|", classificationNames.toArray(new String[classificationNames.size()]));
 			
 			TestCase t = new TestCase(testCaseName);
 			for (ClassificationVariableSelection cvs : r.getRecommendedSelections()) {
@@ -89,6 +117,12 @@ public class SuiteBuilder {
 	}
 
 	public void saveSuite(String suiteFileName) {
+		try {
+			Element nameElement = currentRoot.getChild("name", nsBPELUnit);
+			nameElement.setText(new File(suiteFileName).getName());
+		} catch(Exception e) {
+			// ignore, just cannot update the suite's name
+		}
 		writeDocument(currentRoot, new File(destFolder, suiteFileName));
 	}
 

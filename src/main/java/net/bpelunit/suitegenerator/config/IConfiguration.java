@@ -62,8 +62,6 @@ public interface IConfiguration {
 
 	String getVariableSlotTag();
 
-	String getPartnerTrackTag();
-
 	String getMessageNameTag();
 
 	String getConditionValueName();

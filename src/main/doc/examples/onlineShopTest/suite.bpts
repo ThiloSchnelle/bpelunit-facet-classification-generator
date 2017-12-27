@@ -13,7 +13,172 @@
 		<tes:partner name="WarehouseShippingPort" wsdl="OnlineShop.wsdl" partnerWsdl="" />
 	</tes:deployment>
 	<tes:testCases>
-		<tes:testCase name="TestCase1" basedOn="" abstract="false" vary="false">
+		<tes:testCase name="Einkaufsgröße:Großbrief|Ware verfügbar?:Ware nicht verfügbar|Zahlungsmethode:PayPal" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>PayPal</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>1</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="notAvailableMsg" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>8.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>false</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>1</oss:id>
+										<oss:name>Ueber Wachen und Schlafen</oss:name>
+										<oss:priceInEur>8.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Großbrief|Ware verfügbar?:Ware nicht verfügbar|Zahlungsmethode:EC" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>EC</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>1</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="notAvailableMsg" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>8.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>false</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>1</oss:id>
+										<oss:name>Ueber Wachen und Schlafen</oss:name>
+										<oss:priceInEur>8.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Großbrief|Ware verfügbar?:Ware nicht verfügbar|Zahlungsmethode:Überweisung" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>BankTransfer</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>1</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="notAvailableMsg" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>8.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>false</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>1</oss:id>
+										<oss:name>Ueber Wachen und Schlafen</oss:name>
+										<oss:priceInEur>8.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Großbrief|Ware verfügbar?:Versand möglich?:Erfolg|Zahlungsmethode:PayPal" basedOn="" abstract="false" vary="false">
 			<tes:clientTrack>
 				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
 					<tes:data>
@@ -119,7 +284,1052 @@
 				</tes:receiveSend>
 			</tes:partnerTrack>
 		</tes:testCase>
-		<tes:testCase name="TestCase2" basedOn="" abstract="false" vary="false">
+		<tes:testCase name="Einkaufsgröße:Großbrief|Ware verfügbar?:Versand möglich?:Erfolg|Zahlungsmethode:EC" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>EC</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>1</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="Accounting">
+				<tes:receiveSend service="os:Accounting" port="AccountingPort" operation="accountingInformation">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:accountingResponse>
+								<oss:pdfLocation>example.org/invoices/123456789.pdf</oss:pdfLocation>
+							</oss:accountingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>0.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="shippingSucceededNotify" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>true</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>8.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>1</oss:id>
+										<oss:name>Ueber Wachen und Schlafen</oss:name>
+										<oss:priceInEur>8.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="WarehouseShippingPort">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseShippingPort" operation="notifyShipping">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseShippingResponse>
+								<oss:orderID>123456789</oss:orderID>
+								<oss:successfullyShipped>true</oss:successfullyShipped>
+							</oss:warehouseShippingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Großbrief|Ware verfügbar?:Versand möglich?:Erfolg|Zahlungsmethode:Überweisung" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>BankTransfer</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>1</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="Accounting">
+				<tes:receiveSend service="os:Accounting" port="AccountingPort" operation="accountingInformation">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:accountingResponse>
+								<oss:pdfLocation>example.org/invoices/123456789.pdf</oss:pdfLocation>
+							</oss:accountingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>0.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="shippingSucceededNotify" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>true</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>8.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>1</oss:id>
+										<oss:name>Ueber Wachen und Schlafen</oss:name>
+										<oss:priceInEur>8.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="WarehouseShippingPort">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseShippingPort" operation="notifyShipping">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseShippingResponse>
+								<oss:orderID>123456789</oss:orderID>
+								<oss:successfullyShipped>true</oss:successfullyShipped>
+							</oss:warehouseShippingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Großbrief|Ware verfügbar?:Versand möglich?:Versandfehler|Zahlungsmethode:PayPal" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>PayPal</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>1</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>3.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="freightError" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>false</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>8.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>1</oss:id>
+										<oss:name>Ueber Wachen und Schlafen</oss:name>
+										<oss:priceInEur>8.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Großbrief|Ware verfügbar?:Versand möglich?:Versandfehler|Zahlungsmethode:EC" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>EC</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>1</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>0.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="freightError" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>false</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>8.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>1</oss:id>
+										<oss:name>Ueber Wachen und Schlafen</oss:name>
+										<oss:priceInEur>8.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Großbrief|Ware verfügbar?:Versand möglich?:Versandfehler|Zahlungsmethode:Überweisung" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>BankTransfer</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>1</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>0.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="freightError" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>false</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>8.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>1</oss:id>
+										<oss:name>Ueber Wachen und Schlafen</oss:name>
+										<oss:priceInEur>8.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Normales Paket|Ware verfügbar?:Ware nicht verfügbar|Zahlungsmethode:PayPal" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>PayPal</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>13</oss:productID>
+								<oss:productID>7</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="notAvailableMsg" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>93.94</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>false</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>13</oss:id>
+										<oss:name>Geschaeftsprozesse automatisieren mit BPEL</oss:name>
+										<oss:priceInEur>36.99</oss:priceInEur>
+									</oss:product>
+									<oss:product>
+										<oss:id>7</oss:id>
+										<oss:name>Game Engine Architecture</oss:name>
+										<oss:priceInEur>56.95</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Normales Paket|Ware verfügbar?:Ware nicht verfügbar|Zahlungsmethode:EC" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>EC</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>13</oss:productID>
+								<oss:productID>7</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="notAvailableMsg" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>93.94</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>false</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>13</oss:id>
+										<oss:name>Geschaeftsprozesse automatisieren mit BPEL</oss:name>
+										<oss:priceInEur>36.99</oss:priceInEur>
+									</oss:product>
+									<oss:product>
+										<oss:id>7</oss:id>
+										<oss:name>Game Engine Architecture</oss:name>
+										<oss:priceInEur>56.95</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Normales Paket|Ware verfügbar?:Ware nicht verfügbar|Zahlungsmethode:Überweisung" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>BankTransfer</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>13</oss:productID>
+								<oss:productID>7</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="notAvailableMsg" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>93.94</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>false</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>13</oss:id>
+										<oss:name>Geschaeftsprozesse automatisieren mit BPEL</oss:name>
+										<oss:priceInEur>36.99</oss:priceInEur>
+									</oss:product>
+									<oss:product>
+										<oss:id>7</oss:id>
+										<oss:name>Game Engine Architecture</oss:name>
+										<oss:priceInEur>56.95</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Normales Paket|Ware verfügbar?:Versand möglich?:Erfolg|Zahlungsmethode:PayPal" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>PayPal</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>13</oss:productID>
+								<oss:productID>7</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="Accounting">
+				<tes:receiveSend service="os:Accounting" port="AccountingPort" operation="accountingInformation">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:accountingResponse>
+								<oss:pdfLocation>example.org/invoices/123456789.pdf</oss:pdfLocation>
+							</oss:accountingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>3.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="shippingSucceededNotify" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>true</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>93.94</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>13</oss:id>
+										<oss:name>Geschaeftsprozesse automatisieren mit BPEL</oss:name>
+										<oss:priceInEur>36.99</oss:priceInEur>
+									</oss:product>
+									<oss:product>
+										<oss:id>7</oss:id>
+										<oss:name>Game Engine Architecture</oss:name>
+										<oss:priceInEur>56.95</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="WarehouseShippingPort">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseShippingPort" operation="notifyShipping">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseShippingResponse>
+								<oss:orderID>123456789</oss:orderID>
+								<oss:successfullyShipped>true</oss:successfullyShipped>
+							</oss:warehouseShippingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Normales Paket|Ware verfügbar?:Versand möglich?:Erfolg|Zahlungsmethode:EC" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>EC</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>13</oss:productID>
+								<oss:productID>7</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="Accounting">
+				<tes:receiveSend service="os:Accounting" port="AccountingPort" operation="accountingInformation">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:accountingResponse>
+								<oss:pdfLocation>example.org/invoices/123456789.pdf</oss:pdfLocation>
+							</oss:accountingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>0.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="shippingSucceededNotify" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>true</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>93.94</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>13</oss:id>
+										<oss:name>Geschaeftsprozesse automatisieren mit BPEL</oss:name>
+										<oss:priceInEur>36.99</oss:priceInEur>
+									</oss:product>
+									<oss:product>
+										<oss:id>7</oss:id>
+										<oss:name>Game Engine Architecture</oss:name>
+										<oss:priceInEur>56.95</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="WarehouseShippingPort">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseShippingPort" operation="notifyShipping">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseShippingResponse>
+								<oss:orderID>123456789</oss:orderID>
+								<oss:successfullyShipped>true</oss:successfullyShipped>
+							</oss:warehouseShippingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Normales Paket|Ware verfügbar?:Versand möglich?:Erfolg|Zahlungsmethode:Überweisung" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>BankTransfer</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>13</oss:productID>
+								<oss:productID>7</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="Accounting">
+				<tes:receiveSend service="os:Accounting" port="AccountingPort" operation="accountingInformation">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:accountingResponse>
+								<oss:pdfLocation>example.org/invoices/123456789.pdf</oss:pdfLocation>
+							</oss:accountingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>0.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="shippingSucceededNotify" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>true</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>93.94</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>13</oss:id>
+										<oss:name>Geschaeftsprozesse automatisieren mit BPEL</oss:name>
+										<oss:priceInEur>36.99</oss:priceInEur>
+									</oss:product>
+									<oss:product>
+										<oss:id>7</oss:id>
+										<oss:name>Game Engine Architecture</oss:name>
+										<oss:priceInEur>56.95</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="WarehouseShippingPort">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseShippingPort" operation="notifyShipping">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseShippingResponse>
+								<oss:orderID>123456789</oss:orderID>
+								<oss:successfullyShipped>true</oss:successfullyShipped>
+							</oss:warehouseShippingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Normales Paket|Ware verfügbar?:Versand möglich?:Versandfehler|Zahlungsmethode:PayPal" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>PayPal</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>13</oss:productID>
+								<oss:productID>7</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>3.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="freightError" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>false</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>93.94</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>13</oss:id>
+										<oss:name>Geschaeftsprozesse automatisieren mit BPEL</oss:name>
+										<oss:priceInEur>36.99</oss:priceInEur>
+									</oss:product>
+									<oss:product>
+										<oss:id>7</oss:id>
+										<oss:name>Game Engine Architecture</oss:name>
+										<oss:priceInEur>56.95</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Normales Paket|Ware verfügbar?:Versand möglich?:Versandfehler|Zahlungsmethode:EC" basedOn="" abstract="false" vary="false">
 			<tes:clientTrack>
 				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
 					<tes:data>
@@ -202,7 +1412,200 @@
 				</tes:receiveSend>
 			</tes:partnerTrack>
 		</tes:testCase>
-		<tes:testCase name="TestCase3" basedOn="" abstract="false" vary="false">
+		<tes:testCase name="Einkaufsgröße:Normales Paket|Ware verfügbar?:Versand möglich?:Versandfehler|Zahlungsmethode:Überweisung" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>BankTransfer</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>13</oss:productID>
+								<oss:productID>7</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>0.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="freightError" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>false</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>93.94</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>13</oss:id>
+										<oss:name>Geschaeftsprozesse automatisieren mit BPEL</oss:name>
+										<oss:priceInEur>36.99</oss:priceInEur>
+									</oss:product>
+									<oss:product>
+										<oss:id>7</oss:id>
+										<oss:name>Game Engine Architecture</oss:name>
+										<oss:priceInEur>56.95</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Sperrgut|Ware verfügbar?:Ware nicht verfügbar|Zahlungsmethode:PayPal" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>PayPal</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>42</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="notAvailableMsg" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>399.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>false</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>42</oss:id>
+										<oss:name>Eckschreibtisch</oss:name>
+										<oss:priceInEur>399.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Sperrgut|Ware verfügbar?:Ware nicht verfügbar|Zahlungsmethode:EC" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>EC</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>42</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="notAvailableMsg" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>399.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>false</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>42</oss:id>
+										<oss:name>Eckschreibtisch</oss:name>
+										<oss:priceInEur>399.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Sperrgut|Ware verfügbar?:Ware nicht verfügbar|Zahlungsmethode:Überweisung" basedOn="" abstract="false" vary="false">
 			<tes:clientTrack>
 				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
 					<tes:data>
@@ -257,7 +1660,113 @@
 				</tes:receiveSend>
 			</tes:partnerTrack>
 		</tes:testCase>
-		<tes:testCase name="TestCase4" basedOn="" abstract="false" vary="false">
+		<tes:testCase name="Einkaufsgröße:Sperrgut|Ware verfügbar?:Versand möglich?:Erfolg|Zahlungsmethode:PayPal" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>PayPal</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>42</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="Accounting">
+				<tes:receiveSend service="os:Accounting" port="AccountingPort" operation="accountingInformation">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:accountingResponse>
+								<oss:pdfLocation>example.org/invoices/123456789.pdf</oss:pdfLocation>
+							</oss:accountingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>3.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="shippingSucceededNotify" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>true</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>399.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>42</oss:id>
+										<oss:name>Eckschreibtisch</oss:name>
+										<oss:priceInEur>399.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="WarehouseShippingPort">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseShippingPort" operation="notifyShipping">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseShippingResponse>
+								<oss:orderID>123456789</oss:orderID>
+								<oss:successfullyShipped>true</oss:successfullyShipped>
+							</oss:warehouseShippingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Sperrgut|Ware verfügbar?:Versand möglich?:Erfolg|Zahlungsmethode:EC" basedOn="" abstract="false" vary="false">
 			<tes:clientTrack>
 				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
 					<tes:data>
@@ -274,8 +1783,7 @@
 							</oss:customerInformation>
 							<oss:paymentMethod>EC</oss:paymentMethod>
 							<oss:productIDList>
-								<oss:productID>13</oss:productID>
-								<oss:productID>7</oss:productID>
+								<oss:productID>42</oss:productID>
 							</oss:productIDList>
 						</oss:order>
 					</tes:data>
@@ -330,7 +1838,7 @@
 					<tes:send fault="false">
 						<tes:data>
 							<oss:warehouseResponse>
-								<oss:totalPriceEur>93.94</oss:totalPriceEur>
+								<oss:totalPriceEur>399.99</oss:totalPriceEur>
 								<oss:weightInKG>3.7</oss:weightInKG>
 								<oss:widthInMeters>0.5</oss:widthInMeters>
 								<oss:heightInMeters>0.2</oss:heightInMeters>
@@ -338,14 +1846,9 @@
 								<oss:available>true</oss:available>
 								<oss:products>
 									<oss:product>
-										<oss:id>13</oss:id>
-										<oss:name>Geschaeftsprozesse automatisieren mit BPEL</oss:name>
-										<oss:priceInEur>36.99</oss:priceInEur>
-									</oss:product>
-									<oss:product>
-										<oss:id>7</oss:id>
-										<oss:name>Game Engine Architecture</oss:name>
-										<oss:priceInEur>56.95</oss:priceInEur>
+										<oss:id>42</oss:id>
+										<oss:name>Eckschreibtisch</oss:name>
+										<oss:priceInEur>399.99</oss:priceInEur>
 									</oss:product>
 								</oss:products>
 							</oss:warehouseResponse>
@@ -369,7 +1872,7 @@
 				</tes:receiveSend>
 			</tes:partnerTrack>
 		</tes:testCase>
-		<tes:testCase name="TestCase5" basedOn="" abstract="false" vary="false">
+		<tes:testCase name="Einkaufsgröße:Sperrgut|Ware verfügbar?:Versand möglich?:Erfolg|Zahlungsmethode:Überweisung" basedOn="" abstract="false" vary="false">
 			<tes:clientTrack>
 				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
 					<tes:data>
@@ -470,6 +1973,237 @@
 								<oss:orderID>123456789</oss:orderID>
 								<oss:successfullyShipped>true</oss:successfullyShipped>
 							</oss:warehouseShippingResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Sperrgut|Ware verfügbar?:Versand möglich?:Versandfehler|Zahlungsmethode:PayPal" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>PayPal</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>42</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>3.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="freightError" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>false</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>399.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>42</oss:id>
+										<oss:name>Eckschreibtisch</oss:name>
+										<oss:priceInEur>399.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Sperrgut|Ware verfügbar?:Versand möglich?:Versandfehler|Zahlungsmethode:EC" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>EC</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>42</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>0.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="freightError" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>false</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>399.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>42</oss:id>
+										<oss:name>Eckschreibtisch</oss:name>
+										<oss:priceInEur>399.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+		</tes:testCase>
+		<tes:testCase name="Einkaufsgröße:Sperrgut|Ware verfügbar?:Versand möglich?:Versandfehler|Zahlungsmethode:Überweisung" basedOn="" abstract="false" vary="false">
+			<tes:clientTrack>
+				<tes:sendOnly service="os:OnlineShop" port="OnlineShopSOAP" operation="orderItems" fault="false">
+					<tes:data>
+						<oss:order>
+							<oss:customerInformation>
+								<oss:firstName>Max</oss:firstName>
+								<oss:lastName>Mustermann</oss:lastName>
+								<oss:address>
+									<oss:street>Beispielstraße</oss:street>
+									<oss:houseNumber>20</oss:houseNumber>
+									<oss:postalCode>12345</oss:postalCode>
+								</oss:address>
+								<oss:email>max.mustermann@example.org</oss:email>
+							</oss:customerInformation>
+							<oss:paymentMethod>BankTransfer</oss:paymentMethod>
+							<oss:productIDList>
+								<oss:productID>42</oss:productID>
+							</oss:productIDList>
+						</oss:order>
+					</tes:data>
+				</tes:sendOnly>
+			</tes:clientTrack>
+			<tes:partnerTrack name="ClientPort">
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="confirmOrder" fault="false">
+					<tes:condition>
+						<tes:expression>//oss:paymentSurcharge</tes:expression>
+						<tes:value>0.0</tes:value>
+					</tes:condition>
+				</tes:receiveOnly>
+				<tes:receiveOnly service="os:Client" port="ClientPort" operation="freightError" fault="false">
+					<!-- TODO -->
+				</tes:receiveOnly>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="FreightCompany">
+				<tes:receiveSend service="os:FreightCompany" port="FreightCompanyPort" operation="freightRequest">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:freightCompanyResponse>
+								<oss:possible>false</oss:possible>
+								<oss:priceInEur>6.99</oss:priceInEur>
+								<oss:pdfLocation>exampleFreightCompany.org/shippingLabel.pdf</oss:pdfLocation>
+							</oss:freightCompanyResponse>
+						</tes:data>
+					</tes:send>
+				</tes:receiveSend>
+			</tes:partnerTrack>
+			<tes:partnerTrack name="Warehouse">
+				<tes:receiveSend service="os:Warehouse" port="WarehouseCheckPort" operation="checkWarehouse">
+					<tes:receive fault="false">
+						<!-- TODO -->
+					</tes:receive>
+					<tes:send fault="false">
+						<tes:data>
+							<oss:warehouseResponse>
+								<oss:totalPriceEur>399.99</oss:totalPriceEur>
+								<oss:weightInKG>3.7</oss:weightInKG>
+								<oss:widthInMeters>0.5</oss:widthInMeters>
+								<oss:heightInMeters>0.2</oss:heightInMeters>
+								<oss:depthInMeters>0.4</oss:depthInMeters>
+								<oss:available>true</oss:available>
+								<oss:products>
+									<oss:product>
+										<oss:id>42</oss:id>
+										<oss:name>Eckschreibtisch</oss:name>
+										<oss:priceInEur>399.99</oss:priceInEur>
+									</oss:product>
+								</oss:products>
+							</oss:warehouseResponse>
 						</tes:data>
 					</tes:send>
 				</tes:receiveSend>

@@ -1,5 +1,6 @@
 package net.bpelunit.suitegenerator.datastructures.variables;
 
+import org.jdom2.Content;
 import org.jdom2.Element;
 
 import net.bpelunit.suitegenerator.config.Config;
@@ -45,19 +46,15 @@ public abstract class BaseInstance extends BaseVariable implements IVariableInst
 			return null;
 		}
 		int indexOfSlot = parent.indexOf(vs.getElement());
-		if (content.getChildren().size() > 0) {
-			for (Element child : content.getChildren()) {
-				parent.addContent(indexOfSlot, child.clone());
-				indexOfSlot++;
-			}
-		} else {
-			if (!content.getText().trim().isEmpty()) {
-				parent.addContent(content.getText().trim());
-			}
+		for (Content child : content.getContent()) {
+			parent.addContent(indexOfSlot, child.clone());
+			indexOfSlot++;
 		}
 
 		parent.removeContent(vs.getElement());
 		countUsage();
+//		TODO Debug Flag
+//		System.out.println(getInstanceName() + " -> " + vs.getName());
 		return new InsertedInstance(this.name, parent);
 	}
 

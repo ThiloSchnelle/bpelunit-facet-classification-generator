@@ -53,8 +53,10 @@ public class ClassificationTree extends BaseClassificationElement {
 	}
 
 	public void combineWithFragments(ICodeFragmentReader reader) {
-		VariableLibrary selections = reader.getVariables();
-		traverseEnrichment(selections, this);
+		if(reader != null) {
+			VariableLibrary selections = reader.getVariables();
+			traverseEnrichment(selections, this);
+		}
 	}
 
 	private void traverseEnrichment(VariableLibrary selections, IClassificationElement e) {

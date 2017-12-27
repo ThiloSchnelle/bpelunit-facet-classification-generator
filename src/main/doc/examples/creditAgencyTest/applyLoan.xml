@@ -7,7 +7,7 @@
 					<tns:customerID><csg:variableSlot name="ConsistedCustomer" /></tns:customerID>
 					<tns:amount><csg:variableSlot name="ApplicationAmount" /></tns:amount>
 					<tns:numPDFs><csg:variableSlot name="NumberPDFs" /></tns:numPDFs>
-					<tns:mortgageLendingPercentage>0.6</tns:mortgageLendingPercentage>
+					<tns:mortgageLendingPercentage><csg:variableSlot name="MortgageLendingPercentage" /></tns:mortgageLendingPercentage>
 				</tns:loanApplication>
 			</tes:data>
 		</tes:sendOnly>

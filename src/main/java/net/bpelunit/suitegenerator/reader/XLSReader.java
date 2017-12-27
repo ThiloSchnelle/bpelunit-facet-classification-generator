@@ -77,12 +77,21 @@ public class XLSReader implements IClassificationReader {
 
 	private int readConditions(Sheet classification, int i, int maxRow) {
 		for (; i < maxRow; i++) {
-			Cell c = classification.getRow(i).getCell(1);
-			if (c == null || c.toString().isEmpty()) {
+			Row row = classification.getRow(i);
+			if(row == null) {
 				return i;
+			} else {
+				Cell c = row.getCell(1);
+				if (c == null || c.toString().isEmpty()) {
+					return i;
+				}
+				try {
+					ICondition cond = new ConditionParser().parse(c.getStringCellValue());
+					conditions.addCondition(cond);
+				} catch(Exception e) {
+					throw new RuntimeException("Error parsing condition: " + c.toString(), e);
+				}
 			}
-			ICondition cond = new ConditionParser().parse(c.toString());
-			conditions.addCondition(cond);
 //			System.out.println(cond);
 		}
 		return i;
@@ -90,10 +99,13 @@ public class XLSReader implements IClassificationReader {
 
 	private int findFaultLine(Sheet classification, int maxRow, int tmp) {
 		for (int i = tmp; i <= maxRow; i++) {
-			Cell c = classification.getRow(i).getCell(0);
-			if (c != null && c.toString().equals(Config.get().getFaultLine())) {
-				readFaultLine(classification.getRow(i));
-				return i + 1;
+			Row row = classification.getRow(i);
+			if(!isEmptyRow(row)) {
+				Cell c = row.getCell(0);
+				if (c != null && c.toString().equals(Config.get().getFaultLine())) {
+					readFaultLine(row);
+					return i + 1;
+				}
 			}
 		}
 		return maxRow;
@@ -153,7 +165,9 @@ public class XLSReader implements IClassificationReader {
 					}
 				}
 			}
-			stat.addTest(test);
+			if(stat != null) {
+				stat.addTest(test);
+			}
 			tests.add(test);
 			this.classification.addTestCase(test);
 			// System.out.println(test);
@@ -196,9 +210,13 @@ public class XLSReader implements IClassificationReader {
 	}
 
 	private boolean isEmptyRow(Row r) {
-		for(int i = 1; i < r.getLastCellNum(); i++) {
-			if(!isEmpty(r.getCell(i))) {
-				return false;
+		if(r == null) {
+			return true;
+		} else {
+			for(int i = 0; i < r.getLastCellNum(); i++) {
+				if(!isEmpty(r.getCell(i))) {
+					return false;
+				}
 			}
 		}
 		return true;

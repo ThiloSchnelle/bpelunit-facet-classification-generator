@@ -13,6 +13,40 @@
           <target>1.8</target>
         </configuration>
       </plugin>
+      <plugin>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>2.0</version>
+          <executions>
+            <execution>
+              <id>jar-with-deps</id>
+              <goals><goal>shade</goal></goals>
+              <configuration>
+                <shadedArtifactAttached>true</shadedArtifactAttached>
+                <shadedClassifierName>jar-with-dependencies</shadedClassifierName>
+                <filters>
+                  <filter>
+                    <artifact>*</artifact>
+                    <excludes>
+                      <exclude>**/*.RSA</exclude>
+                      <exclude>**/*.SF</exclude>
+                    </excludes>
+                  </filter>
+                </filters>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>net.bpelunit.suitegenerator.Executor</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   

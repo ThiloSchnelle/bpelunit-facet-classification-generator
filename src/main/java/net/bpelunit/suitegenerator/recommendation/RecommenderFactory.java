@@ -3,6 +3,9 @@ package net.bpelunit.suitegenerator.recommendation;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 public class RecommenderFactory {
@@ -11,15 +14,16 @@ public class RecommenderFactory {
 	private Properties properties = null;
 	
 	public IRecommender getRecommenderByName(String name) {
+		String recommenderClassname = null;
 		try {
-			
 			if(properties == null) {
 				readProperties();
 			}
-			return getRecommenderByClassname(properties.getProperty(name));
+			recommenderClassname = properties.getProperty(name);
+			return getRecommenderByClassname(recommenderClassname);
 		
 		} catch (Exception e) {
-			throw new RuntimeException("Illegal RecommenderFactory configuration", e);
+			throw new RuntimeException("Illegal RecommenderFactory configuration. Cannot resolve recommender " + name + " (resolved class name: " + recommenderClassname + ")", e);
 		}
 	}
 	
@@ -38,4 +42,21 @@ public class RecommenderFactory {
 		return (IRecommender) Class.forName(className).newInstance();
 	}
 	
+	public List<String> getAvailableRecommenderNames() {
+		try {
+			if(properties == null) {
+				readProperties();
+			}
+		
+			List<String> recommenders = new ArrayList<String>(properties.size());
+			for(Object o : properties.keySet()) {
+				recommenders.add(o.toString());
+			}
+			Collections.sort(recommenders);
+			
+			return recommenders;
+		} catch (Exception e) {
+			throw new RuntimeException("Illegal RecommenderFactory configuration", e);
+		}
+	}
 }

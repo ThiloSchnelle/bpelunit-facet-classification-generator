@@ -42,6 +42,10 @@ public class PartnerTrackInstance {
 		return partner;
 	}
 
+	public TrackType getTrackType() {
+		return trackType;
+	}
+	
 	public void addMessage(String messageSlot, MessageExchangeInstance mei) {
 		sequencedMessages.put(messageSlot, mei);
 	}

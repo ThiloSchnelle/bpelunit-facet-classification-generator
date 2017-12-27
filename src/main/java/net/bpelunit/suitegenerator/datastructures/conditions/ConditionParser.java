@@ -10,9 +10,22 @@ public class ConditionParser {
 	private List<ICondition> conds = new LinkedList<>();
 
 	public ICondition parse(String cond) {
+		StringBuilder effectiveCond = new StringBuilder();
+		cond = cond.replaceAll("\r", "\n");
+		String[] lines = cond.split("\n");
+		for(String line : lines) {
+			line = line.trim();
+			if(!("".equals(line) || line.startsWith("#"))) {
+				effectiveCond.append(line).append(" ");
+			}
+		}
+		cond = effectiveCond.toString();
+		
+		cond = cond.replaceAll("\t", " ");
 		cond = "(" + cond + ")";
 		cond = cond.replace("(", "( ");
 		cond = cond.replace(")", " )");
+		cond = cond.replaceAll("\\s+", " ");
 		parts = cond.split(" ");
 		parseConds();
 		return handleCondition(conds.get(0));

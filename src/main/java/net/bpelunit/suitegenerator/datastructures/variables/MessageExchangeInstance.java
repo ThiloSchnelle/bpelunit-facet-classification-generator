@@ -59,8 +59,9 @@ public class MessageExchangeInstance extends BaseInstance {
 				IVariableInstance inst = instanceForVarName.get(slotName);
 				for (VariableSlot vs : slotList) {
 					IInsertedInstance ii = inst.replaceWithVariable(vs);
-					if(ii != null)
+					if(ii != null) {
 						ii.insertVariables(instanceForVarName);
+					}
 				}
 			}
 		}

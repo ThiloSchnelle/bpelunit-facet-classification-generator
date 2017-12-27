@@ -8,7 +8,11 @@ import org.jdom2.JDOMException;
 public class ReaderFactory {
 
 	public static IClassificationReader findReader(File f) {
-		return new XLSReader(f);
+		if(f.getName().endsWith(".mm")) {
+			return new FreeMindReader(f); 
+		} else {
+			return new XLSReader(f);
+		}
 	}
 
 	public static ICodeFragmentReader findFragmentReader(File f) {

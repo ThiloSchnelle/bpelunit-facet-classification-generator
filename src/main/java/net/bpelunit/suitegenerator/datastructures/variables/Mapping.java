@@ -133,11 +133,26 @@ public class Mapping extends BaseVariable {
 	// TODO: When Parent is added to child and after that the grandparent is read
 	public void addParentSelection(Mapping parentMapping) {
 		this.parentMappings.add(parentMapping);
-		allMappings.addAll(parentMapping.getMappings());
-		messageMappings.putAll(parentMapping.getMessageMappings());
-		variableMappings.putAll(parentMapping.getVariableMappings());
+//		allMappings.addAll(parentMapping.getMappings());
+		
+		for(String s : parentMapping.getMessageMappings().keySet()) {
+			if(!messageMappings.containsKey(s)) {
+				MessageVariableMapping mapping = parentMapping.getMessageMappings().get(s);
+				messageMappings.put(s, mapping);
+				this.allMappings.add(mapping);
+			}
+		}
+		for(String s : parentMapping.getVariableMappings().keySet()) {
+			if(!variableMappings.containsKey(s)) {
+				VariableMapping mapping = parentMapping.getVariableMappings().get(s);
+				variableMappings.put(s, mapping);
+				this.allMappings.add(mapping);
+			}
+		}
 		deactivations.addAll(parentMapping.getDeactivations());
+		allMappings.addAll(parentMapping.getDeactivations());
 		trackDeactivations.addAll(parentMapping.getTrackDeactivations());
+		allMappings.addAll(parentMapping.getTrackDeactivations());
 	}
 
 	private Collection<PartnerTrackDeactivation> getTrackDeactivations() {

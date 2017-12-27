@@ -140,11 +140,6 @@ class Configuration implements IConfiguration {
 	}
 
 	@Override
-	public String getPartnerTrackTag() {
-		return "partnerTrack";
-	}
-
-	@Override
 	public String getMessageNameTag() {
 		return "messageName";
 	}

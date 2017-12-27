@@ -23,6 +23,7 @@ import net.bpelunit.suitegenerator.datastructures.variables.MessageExchangeVaria
 import net.bpelunit.suitegenerator.datastructures.variables.MessageVariableMapping;
 import net.bpelunit.suitegenerator.datastructures.variables.PartnerTrack;
 import net.bpelunit.suitegenerator.datastructures.variables.PartnerTrackInstance;
+import net.bpelunit.suitegenerator.datastructures.variables.TrackType;
 import net.bpelunit.suitegenerator.datastructures.variables.VariableLibrary;
 import net.bpelunit.suitegenerator.datastructures.variables.VariableMapping;
 
@@ -195,7 +196,12 @@ public class TestCaseBuilder implements SlotVisitor {
 			testCaseElement.addContent(new Element("clientTrack", tes));
 		}
 		for (PartnerTrackInstance p : partner.values()) {
-			if (!p.isClient() && !deactivatedTracks.contains(p.getName())) {
+			if (!p.isClient() && p.getTrackType() == TrackType.PARTNER && !deactivatedTracks.contains(p.getName())) {
+				testCaseElement.addContent(p.getElement(tes));
+			}
+		}
+		for (PartnerTrackInstance p : partner.values()) {
+			if (!p.isClient() && p.getTrackType() == TrackType.HUMANTASK && !deactivatedTracks.contains(p.getName())) {
 				testCaseElement.addContent(p.getElement(tes));
 			}
 		}
