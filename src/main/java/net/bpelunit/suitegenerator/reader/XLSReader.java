@@ -178,7 +178,7 @@ public class XLSReader implements IClassificationReader {
 		for (int line = 0; startIndex <= maxRow; startIndex++, line++) {
 			Row r = classification.getRow(startIndex);
 			IClassificationElement element = getXLSColumn(0).getElement();
-			if(isEmptyRow(r)) {
+			if(isEmptyRow(r) || !isEmpty(r.getCell(0))) {
 				return startIndex;
 			}
 			
